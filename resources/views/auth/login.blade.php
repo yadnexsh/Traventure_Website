@@ -52,9 +52,14 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-between mt-6">
+            <div class="flex items-center justify-between mb-4">
                 <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign in</button>
+            </div>
+
+            <div class="mt-6">
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                    Sign in
+                </button>
             </div>
         </form>
 
