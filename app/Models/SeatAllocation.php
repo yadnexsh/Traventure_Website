@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SeatAllocation extends Model
 {
-    protected $fillable = ['reservation_id', 'departure_id', 'allocation_type', 'expires_at', 'released_at'];
+    protected $fillable = ['reservation_id', 'departure_id', 'allocation_type', 'expires_at', 'released_at', 'source_pool'];
 
     protected $casts = [
         'expires_at' => 'datetime',

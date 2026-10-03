@@ -45,7 +45,7 @@ The admin handles customer contact and payment outside the website.
 1. Admin creates a reservation (no customer account required).
 2. Admin allocates seats directly against the departure via the admin panel.
 3. **No Expiry:** Offline allocations do NOT expire automatically.
-4. **Explicit Release:** Admin explicitly releases allocations if a customer cancels. The system will prompt whether the released capacity should return to the `unused_offline_reserved_capacity` pool or become available online.
+4. **Explicit Release:** Admin explicitly releases allocations if a customer cancels. The system will prompt whether the released capacity should return to the `unused_offline_reserved_capacity` pool or become available online. The system tracks the origin of the allocation via `SeatAllocation.source_pool` to assist with correct auditing and default choices.
 5. **Payment:** Handled entirely outside the website for the first release.
 
 ## 5. Expression of Interest ("I'm interested in this batch")

@@ -30,13 +30,15 @@
 - `unused_offline_reserved_capacity` tracks the pool of seats hidden from public online booking, explicitly reserved for future offline allocation.
 
 ### Reservation
-- `id`, `customer_record_id`, `departure_id`, `status` (Draft, Confirmed, Cancelled), `payment_status` (Unpaid, Paid, Refunded), `price_snapshot`, `timestamps`.
+- `id`, `customer_record_id`, `departure_id`, `status` (Draft, Confirmed, Cancelled), `payment_status` (Unpaid, Paid, Refunded), `booking_source` (online, offline), `price_snapshot`, `timestamps`.
 - The logical container for a customer's trip, completely detached from the physical capacity lock.
+- `booking_source` distinguishes between customer-driven online bookings and admin-recorded offline bookings.
 
 ### SeatAllocation
-- `id`, `reservation_id`, `departure_id`, `allocation_type` (OnlineHold, OfflineAllocated, Confirmed), `expires_at` (nullable), `released_at` (nullable), `timestamps`.
+- `id`, `reservation_id`, `departure_id`, `allocation_type` (OnlineHold, OfflineAllocated, Confirmed), `source_pool` (online, offline_reserved, general), `expires_at` (nullable), `released_at` (nullable), `timestamps`.
 - **OnlineHold:** `expires_at` is set to `now() + 15 mins`.
 - **OfflineAllocated:** `expires_at` is null. Does not expire automatically. Created when the admin manually records a booking.
+- `source_pool` explicitly records whether the seat was consumed from the general `online` pool, the `offline_reserved` pool, or `general` offline capacity.
 - Acts as the definitive lock on physical capacity. 
 
 ### PaymentAttempt (Future)
