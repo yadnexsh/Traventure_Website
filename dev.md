@@ -1,7 +1,7 @@
 # Developer Handoff Document (dev.md)
 
 **Project:** Trek Company Platform (Traventure)  
-**Current Phase:** Phase 1 (Environment Setup Complete) / Phase 2 (Database Design & Core Models)  
+**Current Phase:** Milestone 4 (Authentication & Customer Accounts)  
 **Last Updated:** October 2026  
 
 This document provides a high-level summary of the project state, architectural decisions, and next steps. For detailed agent instructions and boundaries, strictly follow `AGENTS.md`.
@@ -54,17 +54,15 @@ The most critical and complex part of the system is the **Capacity and Booking E
 - All Phase 0 architectural planning and business rule validation.
 - Extensive documentation in the `docs/` directory (`PRODUCT_REQUIREMENTS.md`, `ARCHITECTURE.md`, `DATABASE_SCHEMA.md`, `milestones.md`, etc.).
 
-**What is completed (Milestone 1):**
-- Local toolchain (PHP, Composer, Node, npm) is fully functional.
-- Laravel 13 has been scaffolded.
-- PostgreSQL is installed, `.env` is configured with `traventure_local`, and base migrations have run.
-- Vite dependencies are installed and building.
-- Local dev server successfully serves the application.
+**What is completed (Milestones 1-3):**
+- **M1 (Project Setup):** Laravel scaffolded, PostgreSQL configured (`traventure_local`), Vite installed, and local dev server running.
+- **M2 (Database & Models):** Eloquent models and migrations created for Treks, Departures, CustomerRecords, Reservations, and SeatAllocations. Strict PostgreSQL `CHECK` constraints added to prevent negative capacities. Tested schema integrity.
+- **M3 (Public Website):** Created responsive blade layout, home page, trek index, and trek detail views. Fully implemented the documented capacity math in `Departure::getOnlineAvailabilityAttribute()`, automatically ignoring expired online holds. Feature tested edge cases successfully.
 
-**Next Step (Milestone 2 - Database Design & Core Models):**
-- Implement database migrations for treks, departures, customers, reservations, and capacity allocations based strictly on `docs/DATABASE_SCHEMA.md`.
-- Build corresponding Eloquent models and define relationships.
-- Do NOT start building UI or authentication until the core database structure is robust.
+**Next Step (Milestone 4 - Authentication & Customer Accounts):**
+- Implement Laravel Auth for customers.
+- Customers must verify their email to book online.
+- Do NOT build booking logic (M5) or admin dashboard (M8) yet.
 
 ## 5. Important Directory Map
 
