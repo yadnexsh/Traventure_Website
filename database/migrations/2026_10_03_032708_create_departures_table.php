@@ -22,9 +22,10 @@ return new class extends Migration
             $table->string('status')->default('scheduled');
             $table->timestamps();
         });
-
-        DB::statement('ALTER TABLE departures ADD CONSTRAINT departures_total_capacity_check CHECK (total_capacity >= 0)');
-        DB::statement('ALTER TABLE departures ADD CONSTRAINT departures_unused_offline_reserved_capacity_check CHECK (unused_offline_reserved_capacity >= 0)');
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE departures ADD CONSTRAINT departures_total_capacity_check CHECK (total_capacity >= 0)');
+            DB::statement('ALTER TABLE departures ADD CONSTRAINT departures_unused_offline_reserved_capacity_check CHECK (unused_offline_reserved_capacity >= 0)');
+        }
     }
 
     /**

@@ -21,8 +21,9 @@ return new class extends Migration
             $table->integer('price_snapshot')->unsigned(); // money in integer units (paise)
             $table->timestamps();
         });
-
-        DB::statement('ALTER TABLE reservations ADD CONSTRAINT reservations_price_snapshot_check CHECK (price_snapshot >= 0)');
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE reservations ADD CONSTRAINT reservations_price_snapshot_check CHECK (price_snapshot >= 0)');
+        }
     }
 
     /**
