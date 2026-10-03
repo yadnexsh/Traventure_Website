@@ -18,6 +18,18 @@
                         <a href="{{ route('treks.index') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Treks</a>
                     </div>
                 </div>
+                <div class="flex items-center space-x-4">
+                    @auth
+                        <span class="text-gray-700 text-sm font-medium">{{ Auth::user()->name }}</span>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                        <a href="{{ route('register') }}" class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                    @endauth
+                </div>
             </div>
         </div>
     </header>
