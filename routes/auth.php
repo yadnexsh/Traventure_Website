@@ -5,6 +5,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Auth\SocialiteController;
+
+Route::get('auth/google/redirect', [SocialiteController::class, 'redirect'])->name('google.redirect');
+Route::get('auth/google/callback', [SocialiteController::class, 'callback'])->name('google.callback');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisterController::class, 'create'])->name('register');

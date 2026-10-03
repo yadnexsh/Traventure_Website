@@ -3,8 +3,23 @@
 @section('content')
 <div class="max-w-md mx-auto mt-10">
     <div class="bg-white p-8 rounded shadow">
-        <h2 class="text-2xl font-bold mb-6">Login</h2>
+        <h2 class="text-2xl font-bold mb-6">Welcome back</h2>
         
+        <div class="mb-6">
+            <a href="{{ route('google.redirect') }}" class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                Continue with Google
+            </a>
+        </div>
+        
+        <div class="relative mb-6">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">OR</span>
+            </div>
+        </div>
+
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
                 {{ session('status') }}
@@ -37,11 +52,15 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-between">
-                <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline">Forgot your password?</a>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Log in</button>
+            <div class="flex items-center justify-between mt-6">
+                <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign in</button>
             </div>
         </form>
+
+        <div class="mt-6 text-center">
+            <a href="{{ route('register') }}" class="text-sm text-blue-600 hover:underline">Don't have an account? Register</a>
+        </div>
     </div>
 </div>
 @endsection
