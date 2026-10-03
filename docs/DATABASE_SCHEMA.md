@@ -22,7 +22,7 @@
 - Contains minimal contact details needed for operations. Can exist without a `User` (for offline bookings).
 
 ### Trek
-- `id`, `slug`, `title`, `summary`, `difficulty`, `duration`, `published_status`, `timestamps`.
+- `id`, `slug`, `title`, `summary`, `difficulty`, `duration`, `published_status`, `price`, `timestamps`.
 
 ### Departure
 - `id`, `trek_id`, `start_time`, `end_time`, `total_capacity`, `unused_offline_reserved_capacity`, `status`, `timestamps`.
