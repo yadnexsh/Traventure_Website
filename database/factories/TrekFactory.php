@@ -24,6 +24,7 @@ class TrekFactory extends Factory
             'summary' => $this->faker->paragraph(),
             'difficulty' => $this->faker->randomElement(['Easy', 'Moderate', 'Hard']),
             'duration' => $this->faker->numberBetween(3, 14),
+            'price' => $this->faker->numberBetween(1000, 10000),
             'published_status' => 'published',
         ];
     }

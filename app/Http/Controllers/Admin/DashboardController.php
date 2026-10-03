@@ -12,6 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $publishedTreksCount = \App\Models\Trek::where('published_status', 'published')->count();
         $upcomingDeparturesCount = Departure::where('start_time', '>', now())->count();
         $totalReservationsCount = Reservation::count();
         $activeHoldsCount = SeatAllocation::where('allocation_type', 'OnlineHold')
@@ -22,6 +23,7 @@ class DashboardController extends Controller
             })->count();
 
         return view('admin.dashboard', compact(
+            'publishedTreksCount',
             'upcomingDeparturesCount',
             'totalReservationsCount',
             'activeHoldsCount'

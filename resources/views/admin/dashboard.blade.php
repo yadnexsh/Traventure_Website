@@ -6,7 +6,12 @@
     <p class="text-gray-600 mt-2">Welcome to the Traventure Admin Panel. Here is an overview of the operations.</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Published Treks</h2>
+        <div class="mt-2 text-4xl font-bold text-blue-900">{{ $publishedTreksCount }}</div>
+    </div>
+
     <div class="bg-white rounded-lg shadow p-6">
         <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Upcoming Departures</h2>
         <div class="mt-2 text-4xl font-bold text-blue-900">{{ $upcomingDeparturesCount }}</div>

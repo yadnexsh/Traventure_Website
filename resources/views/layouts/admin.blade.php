@@ -13,10 +13,9 @@
                 <a href="{{ route('admin.dashboard') }}" class="font-bold text-xl tracking-wide">Traventure Admin</a>
                 <nav class="ml-10 hidden md:flex space-x-4">
                     <a href="{{ route('admin.dashboard') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-800' : '' }}">Dashboard</a>
-                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 cursor-not-allowed" title="Not yet implemented">Treks</a>
-                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 cursor-not-allowed" title="Not yet implemented">Departures</a>
-                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 cursor-not-allowed" title="Not yet implemented">Offline Bookings</a>
-                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 cursor-not-allowed" title="Not yet implemented">Reservations</a>
+                    <a href="{{ route('admin.treks.index') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 {{ request()->routeIs('admin.treks.*') ? 'bg-blue-800' : '' }}">Treks</a>
+                    <a href="{{ route('admin.departures.index') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 {{ request()->routeIs('admin.departures.*') ? 'bg-blue-800' : '' }}">Departures</a>
+                    <a href="{{ route('admin.reservations.index') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-800 {{ request()->routeIs('admin.reservations.*') ? 'bg-blue-800' : '' }}">Reservations</a>
                 </nav>
             </div>
             <div>
@@ -31,6 +30,35 @@
     </header>
 
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        @if (session('success'))
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+                <div class="flex">
+                    <div class="ml-3">
+                        <p class="text-sm text-green-700">
+                            {{ session('success') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                <div class="flex">
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 </body>

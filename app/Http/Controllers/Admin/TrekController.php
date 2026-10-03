@@ -23,9 +23,9 @@ class TrekController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:treks',
+            'slug' => 'required|string|max:255|regex:/^[a-z0-9\-]+$/|unique:treks',
             'summary' => 'nullable|string',
-            'difficulty' => 'nullable|string',
+            'difficulty' => 'required_if:published_status,published|nullable|in:Easy,Moderate,Hard,Expert',
             'duration' => 'nullable|integer|min:1',
             'price' => 'required|integer|min:0',
             'published_status' => 'required|in:draft,published',
@@ -49,9 +49,9 @@ class TrekController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:treks,slug,' . $trek->id,
+            'slug' => 'required|string|max:255|regex:/^[a-z0-9\-]+$/|unique:treks,slug,' . $trek->id,
             'summary' => 'nullable|string',
-            'difficulty' => 'nullable|string',
+            'difficulty' => 'required_if:published_status,published|nullable|in:Easy,Moderate,Hard,Expert',
             'duration' => 'nullable|integer|min:1',
             'price' => 'required|integer|min:0',
             'published_status' => 'required|in:draft,published',
