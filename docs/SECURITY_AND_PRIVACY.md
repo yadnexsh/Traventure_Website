@@ -13,18 +13,16 @@
 
 ## 2. Identity and Authentication
 
-- **Customer Accounts:** Registration requires email verification before online booking is permitted.
+- **Customer Accounts:** Registration requires email verification before online booking is permitted. Offline reservations do not require customer accounts.
 - **Account Recovery:** Must use secure, expiring, single-use tokens, rate limiting, and generic responses that do not reveal whether an account exists. Sessions must be appropriately invalidated upon password change/recovery.
-- **Staff Access:** Staff passwords or recovery secrets must never be disclosed to other staff. Consider Multi-Factor Authentication (MFA) for administrative accounts.
-- **Identity Linking:** Customer records are NOT automatically merged by matching names or phone numbers. Secure verification (e.g., claiming via a secure email link) is required to link a staff-created reservation to a user account. Staff changing a reservation's email address does not bypass ownership verification.
+- **Admin Access:** Admin passwords or recovery secrets must never be disclosed. Consider Multi-Factor Authentication (MFA) for the administrative account.
+- **Identity Linking Deferred:** The first release does not include a workflow for linking offline bookings to online customer accounts. Records must NEVER be automatically merged based on matching names, emails, or phone numbers.
 
 ## 3. Server-Side Authorization
 
-- Use Role-Based Access Control (RBAC). Hiding a frontend button is not sufficient; all administrative endpoints must verify the user's role on the server.
-- Define roles for owner, booking staff, content editor, trek leader/operations, and customer.
-- Customers can only view their own bookings and profile.
-- Staff must only access customer details, payments, and sensitive notes required for their specific role.
-- Public visitors must **never** see internal notes, payment discussions, staff identities, or another customer's personal information. Public availability must not disclose whether seats were booked online or staff-allocated.
+- Use Role-Based Access Control (RBAC), though primarily focused on separating the Admin from regular Customers in the first release. Hiding a frontend button is not sufficient; all administrative endpoints must verify the user's role on the server.
+- Customers can only view their own online bookings and profile.
+- Public visitors must **never** see internal notes, payment discussions, admin identities, or another customer's personal information. Public availability must not disclose whether seats were booked online or recorded offline by the admin.
 
 ## 4. Application Protections
 
@@ -37,7 +35,7 @@ Apply controls appropriate to Laravel:
 
 ## 5. Data Minimization and Privacy
 
-- **Health and Safety Data:** Collect and retain only the information strictly necessary for trekking operations. Avoid broad medical questionnaires; ask only for necessary declarations. Restrict access to this information to authorized operational staff.
+- **Health and Safety Data:** Collect and retain only the information strictly necessary for trekking operations. Avoid broad medical questionnaires; ask only for necessary declarations. Restrict access to this information to authorized operational administration.
 - **Expressions of Interest:** Provide clear privacy information and obtain consent for follow-up communications. Document retention and deletion rules for old interest submissions.
 - **Data Deletion:** Implement policies to scrub sensitive health/emergency info after a trek is completed, adhering to legal requirements.
 
@@ -46,8 +44,7 @@ Apply controls appropriate to Laravel:
 Audit logs must track:
 - Role changes and permission grants.
 - Manual seat allocations and manual capacity releases.
-- Total capacity and staff-reserved capacity changes on departures.
-- Linking a reservation to a user account.
+- Total capacity and unused offline-reserved capacity changes on departures.
 - Changes to health/medical data.
 
 Logs must exclude passwords, secrets, card data, and unnecessary personal/medical information.

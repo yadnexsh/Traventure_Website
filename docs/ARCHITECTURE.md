@@ -21,11 +21,11 @@ Laravel provides a robust, "batteries-included" foundation that handles routing,
 ## 3. Logical components
 
 - **Public Web:** Home, trek discovery, trek pages, guides, articles, "Expression of Interest" submissions, and the online checkout flow.
-- **Admin Web:** Trek/content editor, departure management, staff seat allocation, user roles, operational workflows, and audit logs.
-- **Customer Portal:** Profile, own bookings, trip instructions, and updates.
-- **Application Layer (Laravel):** Input validation, authentication, RBAC authorization, business rules, and transaction orchestration.
+- **Admin Web:** Trek/content editor, departure management, offline booking allocation, operational workflows, and audit logs.
+- **Customer Portal:** Profile, own online bookings, trip instructions, and updates.
+- **Application Layer (Laravel):** Input validation, authentication, business rules, and transaction orchestration.
 - **Database (PostgreSQL):** Durable records, strict constraints, row-level locks, transactions, and migrations.
-- **Media Storage:** Images and approved documents, stored securely (e.g., AWS S3 or equivalent) with safe upload rules.
+- **Media Storage:** Images and approved documents, stored securely with safe upload rules.
 - **Payment Adapter (Deferred):** Future integration for gateway checkout, webhook verification, and reconciliation.
 - **Observability:** Health checks, error monitoring, operational logs, and alerts that avoid sensitive data.
 
@@ -35,8 +35,8 @@ Laravel provides a robust, "batteries-included" foundation that handles routing,
 The separation of seat allocation from payment status is a core architectural principle. 
 
 1. **Online Booking:** A registered customer initiates checkout. The server verifies capacity within a database transaction, locks the row (`SELECT ... FOR UPDATE`), and creates a `SeatAllocation` with a 15-minute expiry.
-2. **Staff Allocation:** Staff immediately allocates seats to a customer (registered or unregistered) via the admin panel. The allocation has no automatic expiry and immediately reduces available public capacity.
-3. **Public Availability:** The system calculates available capacity dynamically. It never reveals whether a seat was booked online or by staff.
+2. **Offline Booking (Admin-Recorded):** The admin immediately allocates seats to a customer via the admin panel. The allocation has no automatic expiry and immediately reduces available public capacity or consumes from the offline-reserved pool.
+3. **Public Availability:** The system calculates available capacity dynamically. It never reveals whether a seat was booked online or offline by the admin.
 
 ### Future Payment Processing (Razorpay)
 1. Server creates a payment session through the gateway.
@@ -45,8 +45,8 @@ The separation of seat allocation from payment status is a core architectural pr
 4. Edge cases (delayed webhooks, payments arriving after hold expiry, duplicate webhooks) must be explicitly reconciled by documented business policies before integration. A browser redirect alone must never prove payment success.
 
 ### Content Publishing
-1. Authorized editor creates a draft.
-2. Reviewer approves content where required, especially safety-critical content.
+1. Admin creates a draft.
+2. Admin approves and publishes content, especially safety-critical content.
 3. Published version becomes available on the public site.
 4. Important edits are recorded in the audit trail.
 

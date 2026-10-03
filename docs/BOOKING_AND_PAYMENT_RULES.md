@@ -2,30 +2,31 @@
 
 **Status:** Confirmed Rules for Initial Release  
 **Market:** India first  
-**Model:** Hybrid manual/staff allocations and online customer checkout. Payment integration is deferred.
+**Model:** Hybrid admin-managed offline bookings and online customer checkout. Payment integration is deferred.
 
 ## 1. Core principles
 
 - **Separation of Concerns:** Seat Allocation, Booking Status, and Payment Status are three distinct concepts. They must not be treated as the same thing.
 - **Server Authority:** The database is the absolute source of truth for capacity, using PostgreSQL transactions and row-level locks.
-- **Public Availability:** Accurate availability is shown publicly, but the system must **never** disclose whether seats were allocated by staff or booked online.
-- **Privacy:** Public visitors must never see internal notes, payment discussions, staff identities, or another customer's personal info.
+- **Public Availability:** Accurate availability is shown publicly, but the system must **never** disclose whether seats were allocated by the admin or booked online.
+- **Privacy:** Public visitors must never see internal notes, payment discussions, admin identities, or another customer's personal info.
 
 ## 2. Capacity Model
 
-A `Departure` has a `total_capacity` and a `staff_reserved_capacity`. 
+A `Departure` has a `total_capacity` and an `unused_offline_reserved_capacity`. 
 
 **Active Allocations** (which consume capacity) include:
 1. Active online checkout holds.
 2. Confirmed or otherwise active online allocations.
-3. Active staff-assisted customer allocations.
+3. Active offline (admin-recorded) allocations.
 
 **Capacity Formula:**
-`Available Online = total_capacity - staff_reserved_capacity - Active Allocations`
+`Online Availability = Total Capacity - Unused Offline-Reserved Capacity - Active Offline Allocations - Active Online Allocations`
 
-*Note: The `staff_reserved_capacity` pool hides seats from the public online checkout. When staff manually allocate a seat to a customer, it consumes an Active Allocation (which deducts from Available Online). Therefore, staff must explicitly decrease `staff_reserved_capacity` if they want to move those seats into the public pool. Unused staff-reserved seats must not be reported as confirmed bookings.*
+*Note: The `unused_offline_reserved_capacity` pool hides seats from the public online checkout. When the admin manually allocates a seat from this pool, the unused pool integer decreases, and an Active Offline Allocation is created. Total approved capacity remains untouched, and public online availability is unaffected by this specific transaction.*
 
-Capacity changes (increasing or decreasing total/reserved capacity) must be validated against existing allocations and logged. Total capacity cannot drop below currently committed allocations.
+**Capacity Reduction Protections:**
+If the admin attempts to reduce `total_capacity` below the number of currently committed or allocated seats, the system will block the change, display a clear explanation, and list the affected allocations for review. Silent cancellations or unrestricted force-saves are forbidden.
 
 ## 3. Online Customer Bookings
 
@@ -38,15 +39,14 @@ Capacity changes (increasing or decreasing total/reserved capacity) must be vali
 **Hold Expiry:**
 If the 15-minute hold expires, it immediately stops consuming capacity. This is calculated dynamically (`expires_at < now()`) so the system does not depend on a scheduled cleanup task to free the seat. The expired allocation record is preserved for history.
 
-## 4. Staff-Assisted Reservations
+## 4. Admin-Recorded Offline Reservations
 
-Staff communicate with customers directly (e.g., phone).
-1. Staff creates a reservation (no customer account required, but a `CustomerRecord` is made).
-2. Staff immediately allocates seats via the admin panel.
-3. This creates a `SeatAllocation` that immediately reduces publicly available capacity.
-4. **No Expiry:** Staff allocations do NOT expire automatically.
-5. **Explicit Release:** Staff must explicitly release allocations when they decide the seats should become available again. A reason should be recorded in the audit trail.
-6. **Payment:** Staff handle payment discussions and collection outside the website for the first release.
+The admin handles customer contact and payment outside the website.
+1. Admin creates a reservation (no customer account required).
+2. Admin allocates seats directly against the departure via the admin panel.
+3. **No Expiry:** Offline allocations do NOT expire automatically.
+4. **Explicit Release:** Admin explicitly releases allocations if a customer cancels. The system will prompt whether the released capacity should return to the `unused_offline_reserved_capacity` pool or become available online.
+5. **Payment:** Handled entirely outside the website for the first release.
 
 ## 5. Expression of Interest ("I'm interested in this batch")
 
@@ -54,7 +54,7 @@ A low-friction feature for customers to signal demand for a specific departure.
 - Collects name, email, optional phone, and consent.
 - Does **not** create a reservation, allocate seats, or consume capacity.
 - Duplicate submissions from the same customer for the same departure must be prevented.
-- Staff can view counts and details to decide whether to increase capacity or release staff-reserved seats.
+- Admin can view counts to decide whether to increase approved capacity, release offline-reserved seats, or create a new departure.
 - Requires data retention policies and privacy consent.
 
 ## 6. Future Payment Considerations (Razorpay)

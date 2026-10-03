@@ -22,8 +22,8 @@ Do not claim guaranteed weather, rescue capability, communications coverage, or 
 
 - Total departure capacity reflects the absolute physical and operational limit of the trek.
 - A commercial decision to add more seats must **never** override the trek's approved operational or safety limit.
-- Any discrepancy in capacity must be corrected by an authorized admin. Capacity increases must be validated against safety guidelines and logged in the audit trail.
-- Do not permit total capacity to be reduced below the number of seats already committed or otherwise allocated. The UI must clearly explain invalid capacity changes.
+- **Capacity Reductions:** If the admin tries to reduce a departure's total capacity below the currently committed or allocated capacity, the system will block the change and display a clear explanation. Affected allocations must be resolved manually before the total capacity can be lowered. Silent cancellations are forbidden.
+- Any discrepancy in capacity must be corrected by the admin. Capacity increases must be validated against safety guidelines and logged in the audit trail.
 
 ## 4. Participant Information and Access
 
