@@ -27,9 +27,39 @@ All architectural decisions, product requirements, and business rules are docume
 
 - **Capacity is King:** The database (PostgreSQL) is the absolute source of truth for departure capacity. We use `DB::transaction()` and row-level locking to serialize capacity allocations and prevent overbooking.
 - **Seat Allocations vs. Reservations:** A reservation is merely the container for a customer's trip. A `SeatAllocation` is the actual physical lock on a seat.
-- **Online vs. Staff Allocations:** Online holds expire strictly in 15 minutes. Staff allocations do not expire and immediately reduce public capacity.
+- **Online vs. Offline Allocations:** Online holds expire strictly in 15 minutes. Admin offline allocations do not expire automatically.
 - **Data Privacy:** Customer health and emergency data are minimized and heavily restricted via RBAC.
 
-## Local Setup (Coming Soon)
+## Local Setup
 
-*(Instructions for scaffolding Laravel, running migrations, and seeding the database will be added here once Phase 1 begins).*
+### 1. Requirements
+- PHP 8.4+ and Composer (e.g., via Laravel Herd)
+- PostgreSQL 18+
+
+### 2. Configure Environment
+1. The `.env` file should be configured with PostgreSQL settings:
+   ```ini
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=traventure_local
+   DB_USERNAME=postgres
+   DB_PASSWORD=your_password
+   ```
+
+### 3. Create Database
+Using the PostgreSQL command line (psql) or a tool like pgAdmin, connect using your `postgres` user password and run:
+```sql
+CREATE DATABASE traventure_local;
+```
+
+### 4. Run Application
+Ensure dependencies are installed and the application is running:
+```bash
+composer install
+php artisan migrate
+php artisan serve
+```
+
+### 5. Verify Health
+Open `http://localhost:8000/health` to confirm the application and database are connected successfully.
