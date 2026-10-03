@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Trek extends Model
 {
     use HasFactory;
-    protected $fillable = ['slug', 'title', 'summary', 'difficulty', 'duration', 'published_status'];
+    protected $fillable = ['slug', 'title', 'summary', 'difficulty', 'duration', 'published_status', 'price'];
 
     public function departures()
     {
