@@ -31,7 +31,6 @@ class SocialiteController extends Controller
             ->where('provider_user_id', $googleUser->getId())
             ->first();
 
-        // If user is already logged in, we link the account
         if (Auth::check()) {
             if (!$identity) {
                 ExternalIdentity::create([
@@ -39,6 +38,8 @@ class SocialiteController extends Controller
                     'provider' => 'google',
                     'provider_user_id' => $googleUser->getId(),
                 ]);
+            } elseif ($identity->user_id !== Auth::id()) {
+                return redirect('/login')->withErrors(['email' => 'This Google account is already linked to another Traventure account.']);
             }
             return redirect()->route('home')->with('status', 'Google account linked successfully.');
         }

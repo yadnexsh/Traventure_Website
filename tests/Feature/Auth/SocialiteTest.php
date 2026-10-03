@@ -63,6 +63,20 @@ class SocialiteTest extends TestCase
         $this->assertEquals('12345', $identity->provider_user_id);
     }
 
+    public function test_new_google_user_without_verified_email()
+    {
+        $this->mockGoogleUser('54321', 'unverified@gmail.com', 'Unverified User', false);
+
+        $response = $this->get(route('google.callback'));
+
+        $response->assertRedirect(route('home', absolute: false));
+        $this->assertAuthenticated();
+
+        $user = User::where('email', 'unverified@gmail.com')->first();
+        $this->assertNotNull($user);
+        $this->assertNull($user->email_verified_at); // Not verified by Google
+    }
+
     public function test_existing_google_identity_logs_in()
     {
         $this->mockGoogleUser();
@@ -132,6 +146,25 @@ class SocialiteTest extends TestCase
             'provider' => 'google',
             'provider_user_id' => '999',
         ]);
+    }
+
+    public function test_authenticated_user_cannot_link_someone_elses_google_account()
+    {
+        $user1 = User::factory()->create(['email' => 'user1@example.com']);
+        ExternalIdentity::create([
+            'user_id' => $user1->id,
+            'provider' => 'google',
+            'provider_user_id' => '12345',
+        ]);
+
+        $user2 = User::factory()->create(['email' => 'user2@example.com']);
+        $this->actingAs($user2);
+
+        $this->mockGoogleUser('12345', 'user1@example.com');
+
+        $response = $this->get(route('google.callback'));
+        $response->assertRedirect('/login');
+        $response->assertSessionHasErrors('email');
     }
 
     public function test_invalid_oauth_callback_is_rejected()
