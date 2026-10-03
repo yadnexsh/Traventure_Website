@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
 
 class RegisterController extends Controller
@@ -22,17 +23,21 @@ class RegisterController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'Customer',
-        ]);
+        $user = DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'Customer',
+            ]);
 
-        CustomerRecord::create([
-            'user_id' => $user->id,
-            'name' => $user->name,
-        ]);
+            CustomerRecord::create([
+                'user_id' => $user->id,
+                'name' => $user->name,
+            ]);
+
+            return $user;
+        });
 
         event(new Registered($user));
         Auth::login($user);
