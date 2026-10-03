@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -20,6 +21,8 @@ return new class extends Migration
             $table->integer('price_snapshot')->unsigned(); // money in integer units (paise)
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE reservations ADD CONSTRAINT reservations_price_snapshot_check CHECK (price_snapshot >= 0)');
     }
 
     /**

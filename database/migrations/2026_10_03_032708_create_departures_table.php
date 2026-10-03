@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -21,6 +22,9 @@ return new class extends Migration
             $table->string('status')->default('scheduled');
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE departures ADD CONSTRAINT departures_total_capacity_check CHECK (total_capacity >= 0)');
+        DB::statement('ALTER TABLE departures ADD CONSTRAINT departures_unused_offline_reserved_capacity_check CHECK (unused_offline_reserved_capacity >= 0)');
     }
 
     /**
