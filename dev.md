@@ -74,3 +74,4 @@ The most critical and complex part of the system is the **Capacity and Booking E
 - `docs/BOOKING_AND_PAYMENT_RULES.md` -> Details on capacity limits, online holds, and offline reservations. 
 
 *(If you are an AI reading this, review `AGENTS.md` immediately, check the current environment, and verify the `php -v` and `composer --version` status before proposing new code).*
+ 
