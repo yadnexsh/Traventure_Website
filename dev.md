@@ -1,7 +1,7 @@
 # Developer Handoff Document (dev.md)
 
 **Project:** Trek Company Platform (Traventure)  
-**Current Phase:** Milestone 8 (Testing, Security and Accessibility)  
+**Current Phase:** Milestone 10 (UI & Visual Design)  
 **Last Updated:** October 2026  
 
 This document provides a high-level summary of the project state, architectural decisions, and next steps. For detailed agent instructions and boundaries, strictly follow `AGENTS.md`.
@@ -62,11 +62,12 @@ The most critical and complex part of the system is the **Capacity and Booking E
 - **M5 (Booking Engine):** Concurrency-safe seat allocation, temporary 15-minute online holds, confirmed reservations, and postgres transaction locking implemented.
 - **M6 (Admin Dashboard & Offline Bookings):** Trek/Departure management CRUD, Audit Logs, and Seat Releases logic built with Tailwind UI for admins.
 - **M7 (Trek Interest Tracking):** Public "Expression of Interest" form when a departure is sold out. Safely captures normalized emails, avoids duplicates using DB unique constraints & `firstOrCreate`, and provides admin dashboard view.
+- **M8 (Testing, Security and Accessibility):** System-wide regression testing for booking conflicts, capacity boundaries, and permissions. Validated privacy, accessibility, and mobile layout usability.
+- **M9 (Production-Like Local Demo Environment):** Provisioned local demo environment with restricted Staff role, demo accounts, realistic test data, and verified safe local database backup/restore procedures.
 
-**Next Step (Milestone 8 - Testing, Security and Accessibility):**
-- System-wide regression testing for booking conflicts, capacity boundaries, and permissions.
-- Validate privacy, accessibility, and mobile layout usability.
-- Resolve any final functional gaps before staging deployment (M9).
+**Next Step (Milestone 10 - UI & Visual Design):**
+- Turn the functional application into a complete, polished Traventure website.
+- Establish final visual direction, typography, colors, and responsive design across all pages.
 
 ## 5. Important Directory Map
 
