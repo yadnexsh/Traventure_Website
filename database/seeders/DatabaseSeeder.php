@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Trek::factory(5)->has(Departure::factory()->count(3))->create();
+        $this->call([
+            DemoDataSeeder::class,
+        ]);
     }
 }
