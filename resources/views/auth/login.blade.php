@@ -31,17 +31,17 @@
             
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" @error('email') aria-invalid="true" aria-describedby="email-error" @enderror>
                 @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-xs mt-1" id="email-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input id="password" type="password" name="password" required autocomplete="current-password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <input id="password" type="password" name="password" required autocomplete="current-password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" @error('password') aria-invalid="true" aria-describedby="password-error" @enderror>
                 @error('password')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-xs mt-1" id="password-error">{{ $message }}</p>
                 @enderror
             </div>
 

@@ -36,6 +36,9 @@ M8 — Testing, Security and Accessibility
 
 Test booking conflicts, capacity boundaries, permissions, validation, privacy, mobile layouts and accessibility.
 
+------------------------------------------------
+OLD
+
 M9 — Private Staging Deployment
 
 Choose hosting, deploy securely, configure environment variables, database backups, logs and private access. Verify the full application in staging.
@@ -49,3 +52,47 @@ Integrate Razorpay, verify payment status using trusted server-side confirmation
 M11 — Production Launch
 
 Complete production security checks, domain and HTTPS setup, monitoring, recovery procedures and launch validation.
+
+
+----------------------------------------------------
+
+NEW
+M9 — Production-Like Local Demo Environment
+
+Build a localhost-only environment that behaves like the eventual live website.
+
+Production-like security and Laravel configuration
+Admin and Staff roles/accounts
+Demo Customer accounts and realistic data
+Logging and error handling
+Local database backup/restore verification
+Data privacy and encryption/security checks
+Full end-to-end workflow verification
+No public hosting or paid infrastructure
+M10 — UI & Visual Design
+
+Turn the functional application into a complete, polished Traventure website.
+
+Establish final visual direction
+Homepage and trek discovery
+Trek detail and availability UI
+Booking/customer experience
+Customer dashboard
+Admin/Staff panels
+Responsive mobile/tablet/desktop design
+Accessibility-preserving implementation
+Consistent typography, colors, spacing, components and interactions
+M11 — Payment Readiness
+
+Prepare payment functionality without spending money or enabling live payments.
+
+Razorpay integration architecture
+Sandbox/test integration where available
+Server-side payment verification
+Webhook verification and duplicate handling
+Payment failures/cancellations
+Refund and reconciliation states
+Payment audit trail
+Keep live payments disabled until owner approval and merchant setup
+
+Future after M11: Owner approval → paid infrastructure → production deployment → live Razorpay → final production security/launch checks.
