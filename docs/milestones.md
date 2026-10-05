@@ -96,3 +96,19 @@ Payment audit trail
 Keep live payments disabled until owner approval and merchant setup
 
 Future after M11: Owner approval → paid infrastructure → production deployment → live Razorpay → final production security/launch checks.
+
+------------------------------------------------------------
+
+M10 BROKEN
+
+Phase	Focus	Main outcome
+M10.1	UI Audit + Visual Direction	Decide exactly how Traventure should look
+M10.2	Design Tokens + Components	Build the reusable visual system
+M10.3	Public Website	Homepage, navbar, footer, trek discovery
+M10.4	Trek Details	Trek detail + departures + availability
+M10.5	Booking UX	Booking journey UI
+M10.6	Customer Experience	Login/auth/dashboard/My Trips
+M10.7	Admin + Staff UI	Polish operational interfaces
+M10.8	Responsive Design	Mobile/tablet/desktop pass
+M10.9	Accessibility	Dedicated accessibility/contrast pass
+M10.10	Final QA + Closure	Full regression and M10 sign-off
