@@ -1,19 +1,19 @@
 # Design System
 
-**Status:** Initial direction — visual identity and tokens are not approved  
+**Status:** Confirmed Visual Direction (M10.1)  
 **Audience:** Public trekking website, customer portal, admin panel, and staff views.
 
-## 1. Design goals
+## 1. Design Goals
 
 - Trustworthy, calm, outdoors-oriented, and easy to navigate.
 - Clear information hierarchy; avoid a generic travel-template appearance.
 - Mobile-first and accessible.
 - The admin interface prioritizes task completion and clarity over decorative effects.
-- Public and admin experiences share foundational tokens and components but may use different layouts.
+- Public and admin experiences share foundational tokens and components but use different layouts.
 
-## 2. Visual direction
+## 2. Visual Direction
 
-Explore an original visual identity using natural, restrained colors and strong readable typography. Do not finalize brand colors, logo, typefaces, or image treatment until the owner reviews visual concepts.
+Traventure uses a restrained, modern trekking/outdoor visual language. The design communicates adventure, outdoors, reliability, safety, professionalism, and approachability.
 
 Avoid:
 - Low-contrast text over scenic images.
@@ -21,71 +21,77 @@ Avoid:
 - Excessive animation, parallax, or autoplay video.
 - Fake urgency, misleading scarcity, and intrusive pop-ups.
 - Inconsistent button meanings or color-only status indicators.
+- Overly corporate banking aesthetics or overly playful startup aesthetics.
+- Excessive glassmorphism, rounded cards, or deep shadows.
 
-## 3. Tokens to define
+## 3. Brand Palette & Color Hierarchy
 
-Document approved values for:
-- Brand, neutral, surface, text, border, focus, success, warning, and error colors.
-- Typography family, sizes, weights, line heights, and readable line lengths.
-- Spacing scale, layout widths, breakpoints, and grid.
-- Border radius, shadows, elevation, and focus ring.
-- Icon style, image ratios, crop behaviour, and motion preferences.
+The following colors are defined in `app.css` as Tailwind v4 `@theme` variables:
 
-Use semantic tokens rather than scattering raw values across components.
+*   **Primary: `#438D98`** (`--color-brand-primary`)
+    *   **Role:** Dominant brand identity.
+    *   **Usage:** Brand surfaces, navigation, selected states, major sections, footer, prominent UI elements.
+*   **Accent: `#31A8CC`** (`--color-brand-accent`)
+    *   **Role:** Selective high-emphasis accent.
+    *   **Usage:** Important CTAs, booking emphasis, active/high-priority states. Must be used sparingly so it retains its impact.
+*   **Dark: `#000000`** (`--color-brand-dark`)
+    *   **Role:** Strong contrast and absolute darkness.
+    *   **Usage:** Sparingly for very strong text emphasis or dark mode elements. Derived neutrals (e.g., `text-gray-900`) will be used for standard body text.
+*   **Soft: `#FDF2F7`** (`--color-brand-soft`)
+    *   **Role:** Soft supporting surface.
+    *   **Usage:** Subtle background tones, section highlights, and muted cards. Not for the dominant website background (which should remain mostly white/neutral).
+*   **Secondary: `#98806F`** (`--color-brand-secondary`)
+    *   **Role:** Secondary supporting tone.
+    *   **Usage:** Supporting neutral accents where appropriate. Does not compete with Primary.
 
-## 4. Core components
+The majority of the interface must have comfortable neutral space (white or light gray) to prevent an overwhelmingly colorful UI.
 
-Create and document reusable, accessible components for:
-- Header, navigation, footer, breadcrumbs.
-- Buttons, links, badges/status labels, cards, tabs, dialogs, tooltips.
-- **"I'm interested in this batch" action:** A distinct, low-friction button/form for expression of interest without implying a confirmed booking.
-- Text fields, select controls, checkboxes, radio groups, date/time selection, text areas, upload controls.
-- Search, filters, sorting, trek comparison, pagination.
-- Trek card, trek facts, itinerary day, packing list, price breakdown, availability panel.
-- Alerts, inline validation, toast/status messages, empty/loading/error states.
-- Admin tables, bulk actions, editor forms, preview, audit history, confirmation dialogs.
-- Responsive image/gallery components.
+## 4. Typography
 
-Each interactive component needs hover, focus, disabled, loading, error, and success states where relevant.
+*   **Font Family:** `Instrument Sans` (sans-serif). A highly readable, modern web font.
+*   **Headings (H1-H3):** Semi-bold to Bold, tight letter-spacing for visual punch.
+*   **Body:** Regular weight, generous line-height (`leading-relaxed`) for maximum readability.
+*   **Small/Metadata:** Smaller text sizes (`text-sm`, `text-xs`) with medium weight and muted colors (`text-gray-500`) to establish hierarchy without competing with primary content.
 
-## 5. UX rules
+## 5. Layout & Spacing
 
-- Show key trek facts early: duration, difficulty, season, prerequisites, price, departure dates, and availability.
-- Keep prices, capacity, and booking state consistent throughout the journey.
-- The public website must show accurate availability but must **never** disclose whether a seat was booked online or allocated by staff.
-- Explain why information is requested, especially emergency or participant information.
-- Preserve non-sensitive form entries when safe after validation errors.
-- Use plain language and helpful next steps.
-- Require confirmation for destructive admin actions (like releasing a staff reservation) and offer undo where practical.
-- Make table filters, forms, and navigation usable on touch devices.
+*   **Max-Width:** `max-w-7xl` for standard public pages to ensure content doesn't stretch too wide on ultrawide monitors.
+*   **Spacing Rhythm:** Generous visual breathing room.
+    *   `py-12` to `py-24` for distinct vertical sections.
+    *   `p-6` or `p-8` for prominent cards.
+    *   `gap-6` or `gap-8` for standard grid gaps.
+*   **Responsive:**
+    *   **Mobile:** Stacked blocks, full-width buttons, accessible touch targets (min 44px height).
+    *   **Tablet:** 2-column grids, adjusted padding.
+    *   **Desktop:** 3-4 column grids, horizontal navigation, expansive hero sections.
 
-## 6. Accessibility
+## 6. Component Visual Language (Pending M10.2)
 
-Target WCAG 2.2 AA and verify the applicable criteria during implementation.
+*   **Buttons:** Standard height (`h-11`), slight border radius (`rounded-md`), clear focus rings (`focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary`). Primary buttons use `#438D98`, Booking CTAs may use Accent `#31A8CC`.
+*   **Cards:** Subtle borders (`border-gray-200`), slight radius (`rounded-lg`), very soft or no shadows by default to keep the interface flat and clean. Hover states might include a slight shadow elevation.
+*   **Forms:** Accessible borders, clear labels, distinct error states (red borders/text + aria attributes).
+*   **Badges:** Status badges use distinct background/text combinations and icons (e.g., green for available, gray for past/draft, red/orange for full). Do not rely on color alone.
+*   **Alerts:** Subtle colored backgrounds with distinct icons (Success, Warning, Error, Info).
 
-- Semantic HTML and correct heading structure.
-- Keyboard access and visible focus.
-- Accessible names, labels, instructions, and validation announcements.
-- Sufficient contrast and no color-only meaning.
-- Meaningful image alt text; decorative images should be ignored by assistive technology.
-- Reduced-motion support.
-- Accessible dialogs, menus, date pickers, tables, and form errors.
-- Manual keyboard checks plus automated accessibility testing.
+## 7. Public vs. Admin Differences
 
-## 7. Responsive and performance rules
+*   **Public:** Visual, welcoming, spacious, adventurous, booking-oriented. Generous padding and prominent imagery.
+*   **Customer Area:** Simple, clear, trustworthy, task-oriented.
+*   **Admin/Staff:** Efficient, information-dense, operational, easy to scan. Uses the same tokens (colors, typography) but in a more compact layout (e.g., `py-2`, `px-4`, smaller font sizes in tables) to maximize screen real estate.
 
-- Design from small screens upward.
-- Prevent horizontal overflow at common viewport sizes.
-- Optimize image sizes and use responsive sources.
-- Avoid layout shifts; reserve image dimensions.
-- Test key journeys on realistic mobile conditions.
+## 8. Accessibility
 
-## 8. Admin usability acceptance
+*   **Contrast:** Brand colors must be checked for WCAG 2.2 AA contrast. For example, white text on `#31A8CC` or `#438D98` must meet a 4.5:1 ratio for normal text or 3.1 for large text. If a brand color fails contrast for body text, use a darker derivative or `#000000`.
+*   **Focus States:** All interactive elements must have highly visible focus rings (`focus:ring`).
+*   **Color-Only:** Status (Full, Available) must be communicated with text or icons alongside color.
+*   **Touch Targets:** Minimum 44x44px clickable areas on mobile devices.
+*   **Forms:** Explicit labels, `aria-invalid` on errors, `aria-describedby` for validation messages.
 
-Ask a non-technical representative to test these tasks:
-1. Create a draft trek and publish it.
-2. Create a departure with specific total capacity and staff-reserved seats.
-3. Manually allocate a seat for a customer without an account.
-4. Release a staff-allocated seat.
-5. Review Expressions of Interest for a specific batch.
-6. Locate the audit trail.
+## 9. Deferred Design Decisions
+
+The following items are deferred to later M10 phases:
+*   Specific HTML structure for Blade components.
+*   Final layout of the Trek Detail page.
+*   Customer booking UX flow (multi-step forms).
+*   Trek imagery (placeholders will be used initially).
+*   Actual UI implementations of Admin DataTables.

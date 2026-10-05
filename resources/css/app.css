@@ -6,4 +6,23 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Traventure Brand Palette */
+    --color-brand-primary: #438D98;
+    --color-brand-accent: #31A8CC;
+    --color-brand-dark: #000000;
+    --color-brand-soft: #FDF2F7;
+    --color-brand-secondary: #98806F;
+
+    /* Derived Semantics */
+    --color-bg-base: #FFFFFF;
+    --color-bg-subtle: #F9FAFB;
+    --color-bg-surface: var(--color-brand-soft);
+    
+    --color-text-primary: var(--color-brand-dark);
+    --color-text-secondary: #4B5563; /* Tailwind gray-600 */
+    --color-text-muted: #9CA3AF; /* Tailwind gray-400 */
+    
+    --color-border-subtle: #E5E7EB; /* Tailwind gray-200 */
+    --color-border-strong: #D1D5DB; /* Tailwind gray-300 */
 }
