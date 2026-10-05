@@ -41,9 +41,12 @@
                                         {{ $departure->online_availability }} seats available
                                     </p>
                                 @else
-                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 mb-2">
                                         Sold out
                                     </p>
+                                    <a href="{{ route('interest.create', $departure) }}" class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                                        I'm interested
+                                    </a>
                                 @endif
                             </div>
                         </div>

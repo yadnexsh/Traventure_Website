@@ -30,6 +30,7 @@
                     </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a href="{{ route('admin.departures.interest', $departure) }}" class="text-blue-600 hover:text-blue-900 mr-3">View Interest</a>
                     <a href="{{ route('admin.departures.edit', $departure) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                 </td>
             </tr>

@@ -64,4 +64,41 @@ class ConcurrencyTest extends TestCase
         // Assert reservations count is 10, not 15
         $this->assertEquals(10, Reservation::count());
     }
+
+    public function test_concurrent_eoi_submissions_do_not_create_duplicates()
+    {
+        if (config('database.default') !== 'pgsql') {
+            $this->markTestSkipped('Concurrency tests require PostgreSQL.');
+        }
+
+        $trek = Trek::factory()->create();
+        $departure = Departure::factory()->create([
+            'trek_id' => $trek->id,
+            'total_capacity' => 10,
+            'unused_offline_reserved_capacity' => 10,
+        ]);
+        
+        $code = escapeshellarg(
+            "\App\Models\ExpressionOfInterest::firstOrCreate(" .
+            "['departure_id' => " . $departure->id . ", 'email' => 'concurrent@example.com']," .
+            "['name' => 'Concurrent User', 'consent_status' => true]" .
+            ");"
+        );
+        $command = "php artisan tinker --execute=" . $code;
+
+        $results = Process::pool(function ($pool) use ($command) {
+            for ($i = 0; $i < 5; $i++) {
+                $pool->path(base_path())
+                     ->env([
+                         'DB_CONNECTION' => config('database.default'),
+                         'DB_DATABASE' => config('database.connections.'.config('database.default').'.database'),
+                         'DB_USERNAME' => config('database.connections.'.config('database.default').'.username'),
+                         'DB_PASSWORD' => config('database.connections.'.config('database.default').'.password'),
+                     ])
+                     ->command($command);
+            }
+        })->start()->wait();
+        
+        $this->assertEquals(1, \App\Models\ExpressionOfInterest::count());
+    }
 }

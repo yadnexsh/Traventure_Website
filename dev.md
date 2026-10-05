@@ -1,7 +1,7 @@
 # Developer Handoff Document (dev.md)
 
 **Project:** Trek Company Platform (Traventure)  
-**Current Phase:** Milestone 4 (Authentication & Customer Accounts)  
+**Current Phase:** Milestone 8 (Testing, Security and Accessibility)  
 **Last Updated:** October 2026  
 
 This document provides a high-level summary of the project state, architectural decisions, and next steps. For detailed agent instructions and boundaries, strictly follow `AGENTS.md`.
@@ -54,15 +54,19 @@ The most critical and complex part of the system is the **Capacity and Booking E
 - All Phase 0 architectural planning and business rule validation.
 - Extensive documentation in the `docs/` directory (`PRODUCT_REQUIREMENTS.md`, `ARCHITECTURE.md`, `DATABASE_SCHEMA.md`, `milestones.md`, etc.).
 
-**What is completed (Milestones 1-3):**
+**What is completed (Milestones 1-7):**
 - **M1 (Project Setup):** Laravel scaffolded, PostgreSQL configured (`traventure_local`), Vite installed, and local dev server running.
 - **M2 (Database & Models):** Eloquent models and migrations created for Treks, Departures, CustomerRecords, Reservations, and SeatAllocations. Strict PostgreSQL `CHECK` constraints added to prevent negative capacities. Tested schema integrity.
-- **M3 (Public Website):** Created responsive blade layout, home page, trek index, and trek detail views. Fully implemented the documented capacity math in `Departure::getOnlineAvailabilityAttribute()`, automatically ignoring expired online holds. Feature tested edge cases successfully.
+- **M3 (Public Website):** Created responsive blade layout, home page, trek index, and trek detail views. Fully implemented the documented capacity math in `Departure::getOnlineAvailabilityAttribute()`, automatically ignoring expired online holds.
+- **M4 (Authentication & Customer Accounts):** Integrated Google OAuth socialite login and basic local auth registration logic, fully tested and securely configured.
+- **M5 (Booking Engine):** Concurrency-safe seat allocation, temporary 15-minute online holds, confirmed reservations, and postgres transaction locking implemented.
+- **M6 (Admin Dashboard & Offline Bookings):** Trek/Departure management CRUD, Audit Logs, and Seat Releases logic built with Tailwind UI for admins.
+- **M7 (Trek Interest Tracking):** Public "Expression of Interest" form when a departure is sold out. Safely captures normalized emails, avoids duplicates using DB unique constraints & `firstOrCreate`, and provides admin dashboard view.
 
-**Next Step (Milestone 4 - Authentication & Customer Accounts):**
-- Implement Laravel Auth for customers.
-- Customers must verify their email to book online.
-- Do NOT build booking logic (M5) or admin dashboard (M8) yet.
+**Next Step (Milestone 8 - Testing, Security and Accessibility):**
+- System-wide regression testing for booking conflicts, capacity boundaries, and permissions.
+- Validate privacy, accessibility, and mobile layout usability.
+- Resolve any final functional gaps before staging deployment (M9).
 
 ## 5. Important Directory Map
 
@@ -72,4 +76,3 @@ The most critical and complex part of the system is the **Capacity and Booking E
 - `docs/BOOKING_AND_PAYMENT_RULES.md` -> Details on capacity limits, online holds, and offline reservations. 
 
 *(If you are an AI reading this, review `AGENTS.md` immediately, check the current environment, and verify the `php -v` and `composer --version` status before proposing new code).*
- 
