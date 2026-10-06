@@ -60,7 +60,7 @@ class PublicDiscoveryTest extends TestCase
 
         $response = $this->get('/treks/' . $trek->slug);
         $response->assertStatus(200);
-        $response->assertSee($departure->start_time->format('M d, Y H:i'));
+        $response->assertSee($departure->start_time->format('d M Y'));
     }
 
     public function test_public_availability_follows_documented_rules(): void
