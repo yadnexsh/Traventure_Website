@@ -20,7 +20,7 @@
                 <div class="w-full border-t border-border-subtle"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-                <span class="px-2 bg-bg-surface text-text-muted">OR</span>
+                <span class="px-2 bg-bg-base text-text-muted">OR</span>
             </div>
         </div>
         

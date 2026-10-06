@@ -1,44 +1,56 @@
 @props(['trek'])
 
-<x-card class="flex flex-col h-full group hover:shadow-md transition-shadow">
-    {{-- Optional Image Placeholder --}}
-    <div class="h-48 bg-bg-subtle flex items-center justify-center border-b border-border-subtle -mt-6 -mx-6 mb-4 overflow-hidden">
-        <svg class="h-12 w-12 text-text-muted group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
+@php
+    // Temporary image mapping for development visuals
+    $imageMap = [
+        'himalayan-base-camp' => 'test_image (1).jpg',
+        'valley-of-flowers' => 'test_image (2).jpg',
+        'weekend-forest-trail' => 'test_image (3).jpg',
+        'easy-day-trek' => 'test_image (4).jpg',
+        'moderate-weekend' => 'test_image (5).jpg',
+        'hard-multi-day' => 'test_image (6).jpg',
+        'camping-oriented' => 'test_image (7).jpg',
+    ];
+    $image = $imageMap[$trek->slug] ?? 'test_image (1).jpg';
+@endphp
+
+<div class="group flex flex-col h-full bg-bg-base border border-border-subtle hover:border-border-strong transition-colors rounded-lg overflow-hidden">
+    {{-- Image Placeholder with temporary image --}}
+    <div class="h-56 bg-bg-subtle relative overflow-hidden">
+        <img src="{{ asset('media/' . $image) }}" alt="{{ $trek->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-brand-dark/10 group-hover:bg-transparent transition-colors z-10"></div>
     </div>
 
-    <div class="flex-grow flex flex-col">
-        <div class="flex justify-between items-start mb-2">
-            <h3 class="text-xl font-bold text-text-primary group-hover:text-brand-primary transition-colors">
-                <a href="{{ route('treks.show', $trek) }}">
-                    <span class="absolute inset-0"></span>
-                    {{ $trek->title }}
-                </a>
-            </h3>
+    <div class="p-6 flex-grow flex flex-col">
+        <h3 class="text-xl font-bold text-text-primary mb-2 group-hover:text-brand-primary transition-colors">
+            <a href="{{ route('treks.show', $trek) }}">
+                <span class="absolute inset-0"></span>
+                {{ $trek->title }}
+            </a>
+        </h3>
+
+        <div class="flex items-center gap-3 text-sm text-text-secondary mb-4">
+            @if($trek->duration)
+                <span>{{ $trek->duration }} Days</span>
+            @endif
+            @if($trek->difficulty && $trek->duration)
+                <span class="w-1 h-1 rounded-full bg-border-strong"></span>
+            @endif
+            @if($trek->difficulty)
+                <span>{{ $trek->difficulty }}</span>
+            @endif
         </div>
 
-        <p class="text-text-secondary text-sm line-clamp-3 mb-4 flex-grow">
+        <p class="text-text-secondary text-sm line-clamp-3 mb-6 flex-grow">
             {{ $trek->summary }}
         </p>
 
-        <div class="space-y-3 mt-auto">
-            <div class="flex flex-wrap gap-2">
-                @if($trek->difficulty)
-                    <x-badge variant="default">{{ $trek->difficulty }}</x-badge>
-                @endif
-                @if($trek->duration)
-                    <x-badge variant="default">{{ $trek->duration }} Days</x-badge>
-                @endif
+        <div class="flex items-end justify-between mt-auto pt-4 border-t border-border-subtle">
+            <div>
+                <span class="block text-xs font-medium text-text-muted uppercase tracking-wider mb-1">Starting from</span>
+                <span class="font-bold text-text-primary text-lg">₹{{ number_format($trek->price / 100) }}</span>
             </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-border-subtle">
-                <div class="text-sm">
-                    <span class="text-text-muted">From</span>
-                    <span class="font-bold text-text-primary text-lg ml-1">₹{{ number_format($trek->price / 100) }}</span>
-                </div>
-                <span class="text-brand-primary font-medium text-sm group-hover:underline">Explore →</span>
-            </div>
+            <span class="text-brand-primary font-medium text-sm group-hover:underline">Explore trek &rarr;</span>
         </div>
     </div>
-</x-card>
+</div>
