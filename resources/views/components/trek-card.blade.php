@@ -14,7 +14,7 @@
     $image = $imageMap[$trek->slug] ?? 'test_image (1).jpg';
 @endphp
 
-<div class="group flex flex-col h-full bg-bg-base border border-border-subtle hover:border-border-strong transition-colors rounded-lg overflow-hidden">
+<div class="group flex flex-col h-full bg-bg-base border border-border-subtle hover:border-border-strong transition-colors rounded-lg overflow-hidden relative">
     {{-- Image Placeholder with temporary image --}}
     <div class="h-56 bg-bg-subtle relative overflow-hidden">
         <img src="{{ asset('media/' . $image) }}" alt="{{ $trek->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />

@@ -17,7 +17,7 @@
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('home') }}" class="text-2xl font-bold text-brand-primary tracking-tight">Traventure</a>
                     </div>
-                    <nav class="hidden sm:ml-8 sm:flex sm:space-x-6 items-center">
+                    <nav class="hidden lg:ml-8 lg:flex lg:space-x-6 items-center">
                         {{-- Treks Dropdown --}}
                         <div class="relative group h-16 flex items-center">
                             <button class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors inline-flex items-center gap-1 {{ request()->routeIs('treks.*') ? 'text-brand-primary font-semibold' : '' }}">
@@ -59,7 +59,7 @@
                 </div>
 
                 {{-- Desktop Auth/User Nav --}}
-                <div class="hidden sm:flex sm:items-center sm:space-x-4">
+                <div class="hidden lg:flex lg:items-center lg:space-x-4">
                     @auth
                         <div class="relative group h-16 flex items-center ml-2">
                             <button class="flex items-center gap-2 text-text-secondary hover:text-brand-primary text-sm font-medium transition-colors">
@@ -91,7 +91,7 @@
                 </div>
 
                 {{-- Mobile Menu Button --}}
-                <div class="flex items-center sm:hidden">
+                <div class="flex items-center lg:hidden">
                     <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-text-secondary hover:text-brand-primary hover:bg-bg-subtle focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-primary" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -103,7 +103,7 @@
         </div>
 
         {{-- Mobile Menu --}}
-        <div class="sm:hidden hidden bg-bg-base border-t border-border-subtle overflow-y-auto max-h-[calc(100vh-4rem)]" id="mobile-menu">
+        <div class="lg:hidden hidden bg-bg-base border-t border-border-subtle overflow-y-auto max-h-[calc(100vh-4rem)]" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
                 <div class="px-4 py-2">
                     <span class="text-sm font-bold text-text-muted uppercase tracking-wider">Treks</span>

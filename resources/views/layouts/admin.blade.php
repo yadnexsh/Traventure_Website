@@ -10,7 +10,7 @@
     <header class="bg-bg-base border-b border-border-subtle shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center">
-                <a href="{{ route('admin.dashboard') }}" class="font-bold text-xl text-brand-primary tracking-tight">Traventure <span class="text-text-muted font-normal text-sm ml-1">Operations</span></a>
+                <a href="{{ route('admin.dashboard') }}" class="font-bold text-xl text-brand-primary tracking-tight">Traventure <span class="text-text-muted font-normal text-sm ml-1 hidden sm:inline">Operations</span></a>
                 <nav class="ml-10 hidden md:flex space-x-1">
                     <a href="{{ route('admin.dashboard') }}" class="px-3 py-2 rounded-md text-sm font-medium transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-brand-primary/10 text-brand-primary' : 'text-text-secondary hover:text-brand-primary hover:bg-bg-subtle' }}">Dashboard</a>
                     @if(auth()->user()->role === 'admin')
@@ -33,12 +33,53 @@
                     </span>
                 </div>
                 
-                <a href="{{ url('/') }}" class="text-sm font-medium text-text-secondary hover:text-brand-primary transition-colors">Public Site</a>
+                <a href="{{ url('/') }}" class="hidden sm:block text-sm font-medium text-text-secondary hover:text-brand-primary transition-colors">Public Site</a>
                 
-                <form method="POST" action="{{ route('logout') }}" class="inline">
+                <form method="POST" action="{{ route('logout') }}" class="hidden sm:inline">
                     @csrf
                     <button type="submit" class="text-sm font-medium text-text-secondary hover:text-status-danger transition-colors">Log out</button>
                 </form>
+
+                {{-- Mobile Menu Button --}}
+                <div class="flex items-center md:hidden">
+                    <button type="button" onclick="document.getElementById('admin-mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-text-secondary hover:text-brand-primary hover:bg-bg-subtle focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-primary">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {{-- Mobile Menu --}}
+        <div class="md:hidden hidden bg-bg-base border-t border-border-subtle" id="admin-mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-base font-medium {{ request()->routeIs('admin.dashboard') ? 'bg-brand-primary/10 text-brand-primary' : 'text-text-secondary hover:bg-bg-subtle hover:text-brand-primary' }}">Dashboard</a>
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.treks.index') }}" class="block px-4 py-2 text-base font-medium {{ request()->routeIs('admin.treks.*') ? 'bg-brand-primary/10 text-brand-primary' : 'text-text-secondary hover:bg-bg-subtle hover:text-brand-primary' }}">Treks</a>
+                @endif
+                <a href="{{ route('admin.departures.index') }}" class="block px-4 py-2 text-base font-medium {{ request()->routeIs('admin.departures.*') ? 'bg-brand-primary/10 text-brand-primary' : 'text-text-secondary hover:bg-bg-subtle hover:text-brand-primary' }}">Departures</a>
+                <a href="{{ route('admin.reservations.index') }}" class="block px-4 py-2 text-base font-medium {{ request()->routeIs('admin.reservations.*') ? 'bg-brand-primary/10 text-brand-primary' : 'text-text-secondary hover:bg-bg-subtle hover:text-brand-primary' }}">Reservations</a>
+                <a href="{{ route('admin.reservations.create') }}" class="block px-4 py-2 text-base font-medium {{ request()->routeIs('admin.reservations.create') ? 'bg-brand-primary/10 text-brand-primary' : 'text-text-secondary hover:bg-bg-subtle hover:text-brand-primary' }}">Offline Booking</a>
+            </div>
+            <div class="pt-4 pb-3 border-t border-border-subtle">
+                <div class="px-4 py-2 flex items-center justify-between">
+                    <div>
+                        <div class="text-base font-medium text-text-primary">{{ auth()->user()->name }}</div>
+                        <div class="text-sm font-medium text-text-muted">{{ auth()->user()->email }}</div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-xs font-bold {{ auth()->user()->role === 'admin' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700' }} uppercase">
+                        {{ auth()->user()->role }}
+                    </span>
+                </div>
+                <div class="mt-3 space-y-1">
+                    <a href="{{ url('/') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Public Site</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="block w-full text-left px-4 py-2 text-base font-medium text-text-secondary hover:text-status-danger hover:bg-bg-subtle">Log out</button>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
