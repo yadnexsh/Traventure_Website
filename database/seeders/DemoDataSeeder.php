@@ -81,11 +81,59 @@ class DemoDataSeeder extends Seeder
             ['slug' => 'weekend-forest-trail'],
             [
                 'title' => 'Weekend Forest Trail',
-                'summary' => 'A short, easy hike perfect for beginners.',
+                'summary' => 'A short, easy hike perfect for beginners. Great way to spend your weekend in the woods.',
                 'difficulty' => 'Easy',
                 'duration' => 2,
                 'price' => 3000,
                 'published_status' => 'draft'
+            ]
+        );
+
+        $trek4 = Trek::firstOrCreate(
+            ['slug' => 'easy-day-trek'],
+            [
+                'title' => 'Sunrise Peak Day Hike',
+                'summary' => 'An accessible 1-day trek starting before dawn to catch the sunrise over the local mountain ranges.',
+                'difficulty' => 'Easy',
+                'duration' => 1,
+                'price' => 1500,
+                'published_status' => 'published'
+            ]
+        );
+
+        $trek5 = Trek::firstOrCreate(
+            ['slug' => 'moderate-weekend'],
+            [
+                'title' => 'Riverside Camping Trek',
+                'summary' => 'A moderate weekend trip featuring dense forests and riverside camping under the stars.',
+                'difficulty' => 'Moderate',
+                'duration' => 3,
+                'price' => 5000,
+                'published_status' => 'published'
+            ]
+        );
+
+        $trek6 = Trek::firstOrCreate(
+            ['slug' => 'hard-multi-day'],
+            [
+                'title' => 'Everest Advanced Base Camp',
+                'summary' => 'A grueling but highly rewarding multi-day expedition into high altitudes. Prior experience mandatory.',
+                'difficulty' => 'Hard',
+                'duration' => 15,
+                'price' => 65000,
+                'published_status' => 'published'
+            ]
+        );
+
+        $trek7 = Trek::firstOrCreate(
+            ['slug' => 'camping-oriented'],
+            [
+                'title' => 'Lakeside Wilderness Retreat',
+                'summary' => 'Focus on wilderness survival, pitching tents, and foraging while hiking around high-altitude alpine lakes.',
+                'difficulty' => 'Moderate',
+                'duration' => 5,
+                'price' => 18000,
+                'published_status' => 'published'
             ]
         );
 
@@ -106,6 +154,37 @@ class DemoDataSeeder extends Seeder
                 'end_time' => Carbon::now()->addDays(36),
                 'total_capacity' => 20,
                 'unused_offline_reserved_capacity' => 5,
+                'status' => 'scheduled'
+            ]
+        );
+
+        // Multiple departures for moderate weekend trek
+        Departure::firstOrCreate(
+            ['trek_id' => $trek5->id, 'start_time' => Carbon::now()->addDays(14)],
+            [
+                'end_time' => Carbon::now()->addDays(17),
+                'total_capacity' => 12,
+                'unused_offline_reserved_capacity' => 2,
+                'status' => 'scheduled'
+            ]
+        );
+        Departure::firstOrCreate(
+            ['trek_id' => $trek5->id, 'start_time' => Carbon::now()->addDays(28)],
+            [
+                'end_time' => Carbon::now()->addDays(31),
+                'total_capacity' => 12,
+                'unused_offline_reserved_capacity' => 0,
+                'status' => 'scheduled'
+            ]
+        );
+
+        // Departure for hard trek
+        Departure::firstOrCreate(
+            ['trek_id' => $trek6->id, 'start_time' => Carbon::now()->addDays(90)],
+            [
+                'end_time' => Carbon::now()->addDays(105),
+                'total_capacity' => 8,
+                'unused_offline_reserved_capacity' => 0,
                 'status' => 'scheduled'
             ]
         );

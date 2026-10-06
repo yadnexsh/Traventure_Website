@@ -5,7 +5,12 @@ use App\Http\Controllers\PublicTrekController;
 
 Route::get('/', [PublicTrekController::class, 'home'])->name('home');
 Route::get('/treks', [PublicTrekController::class, 'index'])->name('treks.index');
+Route::get('/treks/upcoming', [PublicTrekController::class, 'upcoming'])->name('treks.upcoming');
 Route::get('/treks/{trek:slug}', [PublicTrekController::class, 'show'])->name('treks.show');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 Route::get('/departures/{departure}/interest', [\App\Http\Controllers\ExpressionOfInterestController::class, 'create'])->name('interest.create');
 Route::post('/departures/{departure}/interest', [\App\Http\Controllers\ExpressionOfInterestController::class, 'store'])

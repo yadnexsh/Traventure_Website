@@ -48,10 +48,10 @@ The majority of the interface must have comfortable neutral space (white or ligh
 
 ## 4. Typography
 
-*   **Font Family:** `Instrument Sans` (sans-serif). A highly readable, modern web font.
-*   **Headings (H1-H3):** Semi-bold to Bold, tight letter-spacing for visual punch.
+*   **Font Family:** `Plus Jakarta Sans` (sans-serif). A highly readable, premium editorial web font suited for outdoor travel and professional interfaces.
+*   **Headings (H1-H3):** Bold, clean hierarchy for visual punch without looking cartoonish.
 *   **Body:** Regular weight, generous line-height (`leading-relaxed`) for maximum readability.
-*   **Small/Metadata:** Smaller text sizes (`text-sm`, `text-xs`) with medium weight and muted colors (`text-gray-500`) to establish hierarchy without competing with primary content.
+*   **Small/Metadata:** Smaller text sizes (`text-sm`, `text-xs`) with medium weight and muted colors (`text-text-muted`) to establish hierarchy without competing with primary content.
 
 ## 5. Layout & Spacing
 
@@ -65,13 +65,13 @@ The majority of the interface must have comfortable neutral space (white or ligh
     *   **Tablet:** 2-column grids, adjusted padding.
     *   **Desktop:** 3-4 column grids, horizontal navigation, expansive hero sections.
 
-## 6. Component Visual Language (Pending M10.2)
+## 6. Component Visual Language (Updated M10.2.1)
 
-*   **Buttons:** Standard height (`h-11`), slight border radius (`rounded-md`), clear focus rings (`focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary`). Primary buttons use `#438D98`, Booking CTAs may use Accent `#31A8CC`.
-*   **Cards:** Subtle borders (`border-gray-200`), slight radius (`rounded-lg`), very soft or no shadows by default to keep the interface flat and clean. Hover states might include a slight shadow elevation.
+*   **Buttons:** Standard height (`h-11`), slight border radius (`rounded-md`), clear focus rings (`focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary`). Primary buttons use `#438D98`. Avoid playful pill shapes (`rounded-full`).
+*   **Cards:** Clean flat borders (`border-border-subtle`), moderate radius (`rounded-lg`), very soft or no shadows by default to avoid a "floating game card" look.
 *   **Forms:** Accessible borders, clear labels, distinct error states (red borders/text + aria attributes).
-*   **Badges:** Status badges use distinct background/text combinations and icons (e.g., green for available, gray for past/draft, red/orange for full). Do not rely on color alone.
-*   **Alerts:** Subtle colored backgrounds with distinct icons (Success, Warning, Error, Info).
+*   **Badges:** Status badges use distinct background/text combinations and icons. Do not use excessive pills for decoration.
+*   **Photography:** Emphasize real outdoor photography (mountain trails, campsites, real trekking groups). Avoid overly saturated game-like imagery, excessive gradients over photos, or low-contrast text overlays.
 
 ## 7. Public vs. Admin Differences
 
@@ -87,11 +87,11 @@ The majority of the interface must have comfortable neutral space (white or ligh
 *   **Touch Targets:** Minimum 44x44px clickable areas on mobile devices.
 *   **Forms:** Explicit labels, `aria-invalid` on errors, `aria-describedby` for validation messages.
 
-## 9. Deferred Design Decisions
+## 9. Deferred Design Decisions & Assets (M10.2.2)
 
-The following items are deferred to later M10 phases:
-*   Specific HTML structure for Blade components.
-*   Final layout of the Trek Detail page.
-*   Customer booking UX flow (multi-step forms).
-*   Trek imagery (placeholders will be used initially).
-*   Actual UI implementations of Admin DataTables.
+*   **Temporary Imagery:** Currently, temporary development imagery lives under `resources/media` and is compiled via Vite. Permanent media management, image naming, scaling, and database mapping are deferred to a later phase.
+*   **Imagery Style:** Real owner-provided photography is strongly preferred. Imagery should use consistent aspect ratios and evoke premium outdoor travel rather than gaming/SaaS aesthetics.
+*   **Upcoming Departures Component:** The current departure card has a cleaned-up structural UI to ensure consistent typography and spacing. However, a final visual redesign is deferred pending a provided Figma reference.
+*   **Specific HTML structure:** Blade components may still evolve.
+*   **Customer Booking UX:** Multi-step forms deferred.
+*   **Admin UI:** Actual UI implementations of Admin DataTables deferred.
