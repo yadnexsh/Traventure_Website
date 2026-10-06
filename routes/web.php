@@ -36,6 +36,14 @@ Route::middleware(['auth', 'verified'])->prefix('booking')->name('booking.')->gr
     Route::get('/{allocation}/confirmation', [\App\Http\Controllers\BookingController::class, 'confirmation'])->name('confirmation');
 });
 
+Route::middleware(['auth', 'verified'])->prefix('account')->name('account.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\CustomerController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [\App\Http\Controllers\CustomerController::class, 'profile'])->name('profile');
+    Route::put('/profile', [\App\Http\Controllers\CustomerController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/security', [\App\Http\Controllers\CustomerController::class, 'security'])->name('security');
+    Route::put('/security', [\App\Http\Controllers\CustomerController::class, 'updateSecurity'])->name('security.update');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/my-trips', [\App\Http\Controllers\CustomerController::class, 'myTrips'])->name('customer.trips');
     Route::get('/my-trips/{reservation}', [\App\Http\Controllers\CustomerController::class, 'showTrip'])->name('customer.trip.show');
