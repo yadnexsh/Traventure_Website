@@ -22,4 +22,9 @@ class Reservation extends Model
     {
         return $this->hasMany(SeatAllocation::class);
     }
+
+    public function trekmates()
+    {
+        return $this->hasMany(Trekmate::class);
+    }
 }

@@ -28,6 +28,7 @@
                         @if(Auth::user()->role === 'admin' || Auth::user()->role === 'staff')
                             <a href="{{ route('admin.dashboard') }}" class="text-text-secondary hover:text-brand-primary text-sm font-medium">Dashboard</a>
                         @endif
+                        <a href="{{ route('customer.trips') }}" class="text-text-secondary hover:text-brand-primary text-sm font-medium">My Trips</a>
                         <span class="text-text-primary text-sm font-medium px-3">{{ Auth::user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
@@ -63,6 +64,7 @@
                         <div class="text-sm font-medium text-text-muted">{{ Auth::user()->email }}</div>
                     </div>
                     <div class="mt-3 space-y-1">
+                        <a href="{{ route('customer.trips') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">My Trips</a>
                         @if(Auth::user()->role === 'admin' || Auth::user()->role === 'staff')
                             <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Dashboard</a>
                         @endif

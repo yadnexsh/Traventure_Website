@@ -12,6 +12,35 @@ Route::post('/departures/{departure}/interest', [\App\Http\Controllers\Expressio
     ->middleware('throttle:5,1')
     ->name('interest.store');
 
+Route::middleware(['auth', 'verified'])->prefix('booking')->name('booking.')->group(function () {
+    Route::get('/{departure}', [\App\Http\Controllers\BookingController::class, 'details'])->name('details');
+    Route::post('/{departure}/hold', [\App\Http\Controllers\BookingController::class, 'createHold'])->name('hold');
+    
+    // Trekmates
+    Route::get('/{allocation}/trekmates', [\App\Http\Controllers\BookingController::class, 'trekmates'])->name('trekmates');
+    Route::post('/{allocation}/trekmates', [\App\Http\Controllers\BookingController::class, 'storeTrekmates'])->name('trekmates.store');
+    
+    // Add-ons
+    Route::get('/{allocation}/addons', [\App\Http\Controllers\BookingController::class, 'addons'])->name('addons');
+    Route::post('/{allocation}/addons', [\App\Http\Controllers\BookingController::class, 'storeAddons'])->name('addons.store');
+    
+    // Review
+    Route::get('/{allocation}/review', [\App\Http\Controllers\BookingController::class, 'review'])->name('review');
+    Route::post('/{allocation}/confirm', [\App\Http\Controllers\BookingController::class, 'confirm'])->name('confirm'); // Placeholder for payment
+    
+    // Payment (Placeholder)
+    Route::get('/{allocation}/payment', [\App\Http\Controllers\BookingController::class, 'payment'])->name('payment');
+    Route::post('/{allocation}/payment', [\App\Http\Controllers\BookingController::class, 'processPayment'])->name('payment.process');
+    
+    // Confirmation
+    Route::get('/{allocation}/confirmation', [\App\Http\Controllers\BookingController::class, 'confirmation'])->name('confirmation');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-trips', [\App\Http\Controllers\CustomerController::class, 'myTrips'])->name('customer.trips');
+    Route::get('/my-trips/{reservation}', [\App\Http\Controllers\CustomerController::class, 'showTrip'])->name('customer.trip.show');
+});
+
 Route::middleware(['auth', 'admin_or_staff'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('treks', \App\Http\Controllers\Admin\TrekController::class)->middleware('is_admin');

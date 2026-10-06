@@ -10,7 +10,7 @@ class VerificationController extends Controller
     public function show(Request $request)
     {
         return $request->user()->hasVerifiedEmail()
-                    ? redirect()->route('home')
+                    ? redirect()->intended(route('home', absolute: false))
                     : view('auth.verify-email');
     }
 
@@ -24,7 +24,7 @@ class VerificationController extends Controller
             event(new \Illuminate\Auth\Events\Verified($request->user()));
         }
 
-        return redirect()->route('home')->with('verified', true);
+        return redirect()->intended(route('home', absolute: false))->with('verified', true);
     }
 
     public function send(Request $request)

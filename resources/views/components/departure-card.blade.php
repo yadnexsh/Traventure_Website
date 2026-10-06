@@ -44,7 +44,7 @@
                 Interested in this batch
             </x-button>
         @else
-            <x-button href="#" variant="accent" class="w-full sm:w-auto" onclick="alert('Booking UX deferred to M10.5'); return false;">
+            <x-button href="{{ route('booking.details', $departure) }}" variant="accent" class="w-full sm:w-auto">
                 Choose Departure
             </x-button>
         @endif
