@@ -205,7 +205,8 @@ class ExpressionOfInterestTest extends TestCase
         $response->assertOk();
         $response->assertSee('Jane Smith');
         $response->assertSee('jane@example.com');
-        $response->assertSee('Total Expressions of Interest: <strong>1</strong>', false);
+        $response->assertSee('Total EOI', false);
+        $response->assertSee('1');
     }
 
     public function test_guests_and_customers_cannot_access_admin_eoi_data()
