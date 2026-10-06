@@ -19,6 +19,20 @@ class PublicTrekController extends Controller
         return view('treks.index', compact('treks'));
     }
 
+    public function upcoming()
+    {
+        $departures = \App\Models\Departure::with('trek')
+            ->whereHas('trek', function ($query) {
+                $query->where('published_status', 'published');
+            })
+            ->where('status', 'scheduled')
+            ->where('start_time', '>=', now())
+            ->orderBy('start_time')
+            ->get();
+            
+        return view('treks.upcoming', compact('departures'));
+    }
+
     public function show(Trek $trek)
     {
         if ($trek->published_status !== 'published') {

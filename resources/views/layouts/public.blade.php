@@ -18,22 +18,72 @@
                         <a href="{{ route('home') }}" class="text-2xl font-bold text-brand-primary tracking-tight">Traventure</a>
                     </div>
                     <nav class="hidden sm:ml-8 sm:flex sm:space-x-6 items-center">
-                        <a href="{{ route('treks.index') }}" class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('treks.*') ? 'text-brand-primary font-semibold' : '' }}">Explore Treks</a>
+                        {{-- Treks Dropdown --}}
+                        <div class="relative group h-16 flex items-center">
+                            <button class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors inline-flex items-center gap-1 {{ request()->routeIs('treks.*') ? 'text-brand-primary font-semibold' : '' }}">
+                                Treks
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="absolute top-16 left-0 w-48 bg-bg-base border border-border-subtle rounded-md shadow-lg hidden group-hover:block z-50">
+                                <div class="py-1">
+                                    <a href="{{ route('treks.index') }}" class="block px-4 py-2 text-sm text-text-primary hover:bg-bg-subtle hover:text-brand-primary">All Treks</a>
+                                    {{-- Deferred Categories (visually represented but linking to All Treks or placeholder for now) --}}
+                                    <a href="{{ route('treks.index') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Sahyadri Treks</a>
+                                    <a href="{{ route('treks.index') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Himalayan Treks</a>
+                                    <a href="{{ route('treks.index') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Day Treks</a>
+                                    <a href="{{ route('treks.index') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Multi-Day Treks</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('treks.upcoming') }}" class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('treks.upcoming') ? 'text-brand-primary font-semibold' : '' }}">Upcoming Treks</a>
+                        
+                        <a href="#" class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors cursor-not-allowed" title="Deferred">Leisure Trips</a>
+
+                        {{-- Destinations Dropdown --}}
+                        <div class="relative group h-16 flex items-center">
+                            <button class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors inline-flex items-center gap-1 cursor-not-allowed">
+                                Destinations
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="absolute top-16 left-0 w-48 bg-bg-base border border-border-subtle rounded-md shadow-lg hidden group-hover:block z-50">
+                                <div class="py-1">
+                                    <a href="#" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary cursor-not-allowed" title="Deferred">Sahyadri</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary cursor-not-allowed" title="Deferred">Himalayas</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('about') }}" class="text-text-secondary hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('about') ? 'text-brand-primary font-semibold' : '' }}">About Us</a>
                     </nav>
                 </div>
 
                 {{-- Desktop Auth/User Nav --}}
                 <div class="hidden sm:flex sm:items-center sm:space-x-4">
                     @auth
-                        @if(Auth::user()->role === 'admin' || Auth::user()->role === 'staff')
-                            <a href="{{ route('admin.dashboard') }}" class="text-text-secondary hover:text-brand-primary text-sm font-medium">Dashboard</a>
-                        @endif
-                        <a href="{{ route('customer.trips') }}" class="text-text-secondary hover:text-brand-primary text-sm font-medium">My Trips</a>
-                        <span class="text-text-primary text-sm font-medium px-3">{{ Auth::user()->name }}</span>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-text-secondary hover:text-brand-primary text-sm font-medium transition-colors">Log out</button>
-                        </form>
+                        <div class="relative group h-16 flex items-center ml-2">
+                            <button class="flex items-center gap-2 text-text-secondary hover:text-brand-primary text-sm font-medium transition-colors">
+                                <div class="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold">
+                                    {{ substr(Auth::user()->name, 0, 1) }}
+                                </div>
+                                <span>My Profile</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="absolute top-16 right-0 w-48 bg-bg-base border border-border-subtle rounded-md shadow-lg hidden group-hover:block z-50">
+                                <div class="py-1">
+                                    <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 text-sm text-text-primary hover:bg-bg-subtle hover:text-brand-primary">Dashboard</a>
+                                    <a href="{{ route('customer.trips') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">My Trips</a>
+                                    <a href="{{ route('account.profile') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">Profile</a>
+                                    <a href="{{ route('account.security') }}" class="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">Security</a>
+                                    <div class="border-t border-border-subtle mt-1 pt-1">
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">Log out</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @else
                         <a href="{{ route('login') }}" class="text-text-secondary hover:text-brand-primary text-sm font-medium transition-colors">Log in</a>
                         <x-button href="{{ route('register') }}" variant="primary">Sign up</x-button>
@@ -53,10 +103,29 @@
         </div>
 
         {{-- Mobile Menu --}}
-        <div class="sm:hidden hidden bg-bg-base border-t border-border-subtle" id="mobile-menu">
+        <div class="sm:hidden hidden bg-bg-base border-t border-border-subtle overflow-y-auto max-h-[calc(100vh-4rem)]" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
-                <a href="{{ route('treks.index') }}" class="block px-4 py-2 text-base font-medium text-text-primary hover:bg-bg-subtle hover:text-brand-primary">Explore Treks</a>
+                <div class="px-4 py-2">
+                    <span class="text-sm font-bold text-text-muted uppercase tracking-wider">Treks</span>
+                </div>
+                <a href="{{ route('treks.index') }}" class="block pl-8 pr-4 py-2 text-base font-medium text-text-primary hover:bg-bg-subtle hover:text-brand-primary">All Treks</a>
+                <a href="#" class="block pl-8 pr-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Sahyadri Treks</a>
+                <a href="#" class="block pl-8 pr-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Himalayan Treks</a>
+                <a href="#" class="block pl-8 pr-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Day Treks</a>
+                <a href="#" class="block pl-8 pr-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Multi-Day Treks</a>
+
+                <a href="{{ route('treks.upcoming') }}" class="block px-4 py-2 text-base font-medium text-text-primary hover:bg-bg-subtle hover:text-brand-primary mt-2">Upcoming Treks</a>
+                <a href="#" class="block px-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Leisure Trips</a>
+                
+                <div class="px-4 py-2 mt-2">
+                    <span class="text-sm font-bold text-text-muted uppercase tracking-wider">Destinations</span>
+                </div>
+                <a href="#" class="block pl-8 pr-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Sahyadri</a>
+                <a href="#" class="block pl-8 pr-4 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary" title="Deferred">Himalayas</a>
+
+                <a href="{{ route('about') }}" class="block px-4 py-2 text-base font-medium text-text-primary hover:bg-bg-subtle hover:text-brand-primary mt-2">About Us</a>
             </div>
+            
             <div class="pt-4 pb-3 border-t border-border-subtle">
                 @auth
                     <div class="px-4 py-2">
@@ -64,10 +133,10 @@
                         <div class="text-sm font-medium text-text-muted">{{ Auth::user()->email }}</div>
                     </div>
                     <div class="mt-3 space-y-1">
+                        <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Dashboard</a>
                         <a href="{{ route('customer.trips') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">My Trips</a>
-                        @if(Auth::user()->role === 'admin' || Auth::user()->role === 'staff')
-                            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Dashboard</a>
-                        @endif
+                        <a href="{{ route('account.profile') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Profile</a>
+                        <a href="{{ route('account.security') }}" class="block px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Security</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="block w-full text-left px-4 py-2 text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-subtle">Log out</button>
