@@ -92,8 +92,7 @@ class CustomerExperienceTest extends TestCase
         $response = $this->actingAs($this->user)
                          ->put(route('account.profile.update'), [
                              'name' => 'Updated Name',
-                             'phone' => '1234567890',
-                             'emergency_contact_info' => 'Jane - 9876543210'
+                             'phone' => '1234567890'
                          ]);
                          
         $response->assertSessionHasNoErrors();
@@ -101,8 +100,7 @@ class CustomerExperienceTest extends TestCase
         $this->assertDatabaseHas('customer_records', [
             'id' => $this->customerRecord->id,
             'name' => 'Updated Name',
-            'phone' => '1234567890',
-            'emergency_contact_info' => 'Jane - 9876543210'
+            'phone' => '1234567890'
         ]);
         
         // Ensure email isn't mass-assigned via profile

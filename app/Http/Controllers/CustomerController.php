@@ -69,8 +69,7 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'emergency_contact_info' => 'nullable|string|max:1000'
+            'phone' => 'nullable|string|max:20'
         ]);
 
         $user = Auth::user();
@@ -83,8 +82,7 @@ class CustomerController extends Controller
         
         $customerRecord->update([
             'name' => $request->name,
-            'phone' => $request->phone,
-            'emergency_contact_info' => $request->emergency_contact_info
+            'phone' => $request->phone
         ]);
 
         return back()->with('status', 'profile-updated');

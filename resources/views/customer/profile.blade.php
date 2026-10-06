@@ -48,20 +48,6 @@
                     </div>
                 </div>
 
-                <div class="pt-4 mt-6 border-t border-border-subtle">
-                    <h3 class="text-lg font-medium text-text-primary mb-1">Emergency Contact</h3>
-                    <p class="text-sm text-text-muted mb-4">This information will be used by default for your new bookings.</p>
-                    
-                    <div>
-                        <label for="emergency_contact_info" class="block text-sm font-medium text-text-secondary mb-1">Emergency Contact Information</label>
-                        <p class="text-xs text-text-muted mb-2">Please provide a name, relationship, and phone number.</p>
-                        <x-textarea id="emergency_contact_info" name="emergency_contact_info" rows="3">{{ old('emergency_contact_info', $customerRecord->emergency_contact_info ?? '') }}</x-textarea>
-                        @error('emergency_contact_info')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
                 <div class="flex justify-end pt-4 mt-6 border-t border-border-subtle">
                     <x-button type="submit" variant="primary">
                         Save Changes
