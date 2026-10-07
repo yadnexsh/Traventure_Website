@@ -9,8 +9,15 @@ class PublicTrekController extends Controller
 {
     public function home()
     {
-        $featuredTreks = Trek::where('published_status', 'published')->limit(3)->get();
-        return view('home', compact('featuredTreks'));
+        $allTreks = Trek::where('published_status', 'published')
+            ->with(['departures' => function($q) {
+                $q->where('status', 'scheduled')
+                  ->where('start_time', '>=', now())
+                  ->orderBy('start_time');
+            }])
+            ->get();
+            
+        return view('home', compact('allTreks'));
     }
 
     public function index()

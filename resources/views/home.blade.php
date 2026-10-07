@@ -124,89 +124,161 @@
 </script>
 
 
-{{-- 7. YOUR NEXT ADVENTURE --}}
-<div class="bg-bg-base py-24 border-b border-border-subtle overflow-hidden">
+{{-- 7. TREK DISCOVERY / YOUR NEXT ADVENTURE --}}
+<div class="bg-bg-base pt-24 pb-32 border-b border-border-subtle" x-data="trekDiscovery()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="mb-20">
+        <div class="mb-12">
             <h2 class="text-4xl md:text-5xl font-bold text-text-primary tracking-tight">Your Next Adventure</h2>
-            <p class="text-xl text-text-secondary mt-4 font-light">Find something that feels right.</p>
+            <p class="text-xl text-text-secondary mt-4 font-light">Find the trail that fits your time, your season and your spirit.</p>
         </div>
 
-        {{-- 8. TREKS BY MONTH --}}
-        <div class="mb-24">
-            <h3 class="text-xs font-bold text-text-muted uppercase tracking-wider mb-6">Treks by Month</h3>
-            <div class="flex overflow-x-auto pb-4 gap-4 scrollbar-hide snap-x">
-                @foreach(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                    <a href="#" class="snap-start flex-none px-8 py-6 border border-border-strong text-text-primary text-lg hover:border-brand-primary hover:text-brand-primary transition-colors">
-                        {{ $month }}
-                    </a>
-                @endforeach
+        {{-- FILTERS --}}
+        <div class="mb-16 space-y-8">
+            <div class="flex items-center justify-between border-b border-border-subtle pb-4">
+                <span class="text-sm font-bold uppercase tracking-widest text-text-muted">Filter Treks</span>
+                <button @click="clearFilters()" x-show="activeMonth || activeDifficulty" style="display: none;" class="text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors">
+                    Clear all
+                </button>
             </div>
-        </div>
 
-        {{-- 9. TREKS BY SEASON & 10. TREKS BY DIFFICULTY --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div>
-                <h3 class="text-xs font-bold text-text-muted uppercase tracking-wider mb-6">Treks by Season</h3>
-                <div class="flex flex-wrap gap-4">
-                    @foreach(['Winter', 'Summer', 'Monsoon', 'Autumn'] as $season)
-                        <a href="#" class="px-6 py-4 border border-border-strong text-text-primary hover:border-brand-primary hover:bg-brand-primary hover:text-white transition-all">
-                            {{ $season }}
-                        </a>
-                    @endforeach
+            {{-- Controls Container --}}
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-16">
+                
+                {{-- By Month --}}
+                <div class="flex-1">
+                    <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">By Month</h3>
+                    <div class="flex overflow-x-auto pb-2 gap-2 scrollbar-hide snap-x">
+                        @foreach(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
+                            <button @click="toggleMonth('{{ $month }}')" 
+                                :class="activeMonth === '{{ $month }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                                class="snap-start flex-none px-4 py-2 text-sm border rounded-full transition-all focus:outline-none">
+                                {{ $month }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- By Difficulty --}}
+                <div class="lg:w-1/3">
+                    <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">By Difficulty</h3>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach(['Easy', 'Moderate', 'Difficult', 'Expert'] as $difficulty)
+                            <button @click="toggleDifficulty('{{ $difficulty }}')" 
+                                :class="activeDifficulty === '{{ $difficulty }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                                class="px-4 py-2 text-sm border rounded-full transition-all focus:outline-none">
+                                {{ $difficulty }}
+                            </button>
+                        @endforeach
+                    </div>
                 </div>
             </div>
+        </div>
+
+        {{-- MATCHING TREKS RESULTS --}}
+        <div>
+            <div class="flex items-end justify-between mb-8">
+                <h3 class="text-2xl font-bold text-text-primary tracking-tight" x-text="filteredTreks.length > 0 ? 'Matching Treks' : ''"></h3>
+                <span class="text-sm text-text-muted" x-show="filteredTreks.length > 0" x-text="filteredTreks.length + (filteredTreks.length === 1 ? ' Trek' : ' Treks')"></span>
+            </div>
+
+            {{-- Cards Grid --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" x-show="filteredTreks.length > 0">
+                <template x-for="trek in filteredTreks" :key="trek.id">
+                    <div class="group relative flex flex-col bg-bg-base border border-border-subtle overflow-hidden h-full">
+                        {{-- Image Area --}}
+                        <div class="relative aspect-[4/3] bg-bg-subtle overflow-hidden">
+                            <img :src="trek.image_url || '/media/placeholder.jpg'" :alt="trek.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='/media/header/header (2).jpg'">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                            
+                            {{-- Difficulty Badge --}}
+                            <div class="absolute top-4 left-4">
+                                <span class="inline-flex items-center px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-bold uppercase tracking-wider text-text-primary shadow-sm" x-text="trek.difficulty"></span>
+                            </div>
+                        </div>
+
+                        {{-- Content Area --}}
+                        <div class="flex flex-col flex-grow p-6">
+                            <h3 class="text-2xl font-bold text-text-primary mb-2 leading-tight tracking-tight group-hover:text-brand-primary transition-colors" x-text="trek.title"></h3>
+                            
+                            <div class="flex items-center text-sm text-text-muted mb-4 space-x-4">
+                                <span class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span x-text="trek.duration + ' Days'"></span>
+                                </span>
+                            </div>
+
+                            <p class="text-text-secondary text-base leading-relaxed font-light mb-6 flex-grow line-clamp-3" x-text="trek.summary"></p>
+
+                            <div class="pt-4 border-t border-border-subtle mt-auto flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-text-muted uppercase tracking-wider">Starting from</span>
+                                    <span class="text-lg font-bold text-text-primary" x-text="'₹' + (trek.price / 100).toLocaleString()"></span>
+                                </div>
+                                <a :href="'/treks/' + trek.slug" class="inline-flex items-center text-sm font-bold text-brand-primary hover:text-brand-secondary transition-colors">
+                                    View Trek <span aria-hidden="true" class="ml-1">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            {{-- Empty State --}}
+            <div x-show="filteredTreks.length === 0" style="display: none;" class="py-24 text-center border border-border-subtle bg-bg-subtle shadow-sm flex flex-col items-center justify-center">
+                <svg class="w-12 h-12 text-text-muted mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <p class="text-xl text-text-primary font-medium mb-2">No treks match this selection yet.</p>
+                <p class="text-text-secondary font-light mb-6">Try adjusting your filters or clearing them to see more.</p>
+                <button @click="clearFilters()" class="inline-flex items-center justify-center px-6 py-3 border border-border-strong rounded-md text-sm font-medium text-text-primary bg-bg-base hover:bg-bg-subtle transition-colors">
+                    Clear Filters
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('trekDiscovery', () => ({
+            treks: @json($allTreks),
+            activeMonth: null,
+            activeDifficulty: null,
             
-            <div>
-                <h3 class="text-xs font-bold text-text-muted uppercase tracking-wider mb-6">Treks by Difficulty</h3>
-                <div class="flex flex-wrap gap-4">
-                    @foreach(['Easy', 'Moderate', 'Difficult', 'Expert'] as $difficulty)
-                        <a href="#" class="px-6 py-4 border border-border-strong text-text-primary hover:border-brand-primary hover:bg-brand-primary hover:text-white transition-all">
-                            {{ $difficulty }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-{{-- 11. UPCOMING ADVENTURES --}}
-<div class="bg-bg-subtle py-32 border-b border-border-subtle">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-16">
-            <div>
-                <h2 class="text-4xl md:text-5xl font-bold text-text-primary tracking-tight">Upcoming Adventures</h2>
-                <p class="mt-4 text-xl text-text-secondary font-light">Trails worth getting out for.</p>
-            </div>
-            <a href="{{ route('treks.index') }}" class="hidden sm:inline-flex items-center text-text-primary hover:text-brand-primary font-medium text-lg mt-6 sm:mt-0 transition-colors group">
-                View all treks <span aria-hidden="true" class="ml-2 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
-            </a>
-        </div>
-
-        @if($featuredTreks->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                @foreach($featuredTreks->take(3) as $trek)
-                    <x-trek-card :trek="$trek" />
-                @endforeach
-            </div>
-        @else
-            <div class="py-24 text-center border border-border-subtle bg-bg-base shadow-sm">
-                <p class="text-xl text-text-secondary font-light">We're currently preparing our upcoming season. Check back soon.</p>
-            </div>
-        @endif
-        
-        <div class="mt-12 sm:hidden text-center">
-            <x-button href="{{ route('treks.index') }}" variant="outline" class="w-full text-lg py-5 border-border-strong hover:bg-border-subtle">
-                View all treks
-            </x-button>
-        </div>
-
-    </div>
-</div>
+            toggleMonth(month) {
+                this.activeMonth = this.activeMonth === month ? null : month;
+            },
+            
+            toggleDifficulty(difficulty) {
+                this.activeDifficulty = this.activeDifficulty === difficulty ? null : difficulty;
+            },
+            
+            clearFilters() {
+                this.activeMonth = null;
+                this.activeDifficulty = null;
+            },
+            
+            get filteredTreks() {
+                return this.treks.filter(trek => {
+                    let match = true;
+                    
+                    if (this.activeDifficulty && trek.difficulty !== this.activeDifficulty) {
+                        match = false;
+                    }
+                    
+                    if (this.activeMonth && match) {
+                        const hasMatch = trek.departures && trek.departures.some(dep => {
+                            const d = new Date(dep.start_time);
+                            return d.toLocaleString('en-US', { month: 'long' }) === this.activeMonth;
+                        });
+                        if (!hasMatch) match = false;
+                    }
+                    
+                    return match;
+                });
+            }
+        }));
+    });
+</script>
 
 {{-- 12. WHAT ARE YOU LOOKING FOR? --}}
 <div class="bg-bg-base py-32 border-b border-border-subtle">
