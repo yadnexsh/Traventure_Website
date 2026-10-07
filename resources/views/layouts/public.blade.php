@@ -15,7 +15,7 @@
     {{-- Navigation --}}
     <header id="main-header" class="w-full z-50 transition-all duration-300 {{ $isHome ? 'fixed top-0 bg-transparent border-transparent' : 'sticky top-0 bg-bg-base border-b border-border-subtle text-text-primary' }}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
+            <div class="flex justify-between h-16 items-center">
                 {{-- Desktop Logo & Main Nav --}}
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center mr-8">
@@ -25,7 +25,7 @@
                         
                         {{-- Treks Dropdown --}}
                         <div class="relative group">
-                            <button class="nav-link flex items-center space-x-1 py-8 text-sm font-medium transition-colors {{ $isHome ? 'text-white/90 hover:text-white' : 'text-text-secondary hover:text-brand-primary' }}">
+                            <button class="nav-link flex items-center space-x-1 py-6 text-sm font-medium transition-colors {{ $isHome ? 'text-white/90 hover:text-white' : 'text-text-secondary hover:text-brand-primary' }}">
                                 <span>Treks</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>

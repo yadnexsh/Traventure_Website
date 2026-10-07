@@ -3,7 +3,7 @@
 @section('content')
 
 {{-- 5. CINEMATIC HERO --}}
-<div class="relative w-full h-[75vh] md:h-[80vh] lg:h-[90vh] bg-black overflow-hidden" id="cinematic-hero">
+<div class="relative w-full h-[65vh] md:h-[70vh] lg:h-[72vh] bg-black overflow-hidden" id="cinematic-hero">
     
     {{-- Slide 01: Himalayan --}}
     <div class="carousel-slide absolute inset-0 transition-opacity duration-[1500ms] ease-in-out opacity-100 z-10">
@@ -142,7 +142,7 @@
 </script>
 
 {{-- DISCOVERY INTRODUCTION --}}
-<div class="bg-bg-base py-32 border-b border-border-subtle">
+<div class="bg-bg-base pt-20 pb-32 border-b border-border-subtle">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="mb-24 text-center max-w-3xl mx-auto">
