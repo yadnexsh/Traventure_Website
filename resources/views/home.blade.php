@@ -3,7 +3,7 @@
 @section('content')
 
 {{-- 5. CINEMATIC HERO --}}
-<div class="relative w-full h-[65vh] md:h-[70vh] lg:h-[72vh] bg-black overflow-hidden" id="cinematic-hero">
+<div class="relative w-full h-[65vh] md:h-[70vh] lg:h-[76vh] bg-black overflow-hidden" id="cinematic-hero">
     
     {{-- Slide 01: Himalayan --}}
     <div class="carousel-slide absolute inset-0 transition-opacity duration-[1500ms] ease-in-out opacity-100 z-10">

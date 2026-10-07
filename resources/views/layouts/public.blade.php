@@ -19,7 +19,16 @@
                 {{-- Desktop Logo & Main Nav --}}
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center mr-8">
-                        <a href="{{ route('home') }}" id="logo-text" class="text-2xl font-bold tracking-tight transition-colors duration-300 {{ $isHome ? 'text-white' : 'text-brand-primary' }}">Traventure</a>
+                        <a href="{{ route('home') }}" class="flex items-center relative block">
+                            {{-- Invisible placeholder to maintain width --}}
+                            <img src="{{ asset('media/logo/tot_white.png') }}" class="h-8 md:h-10 w-auto object-contain invisible" aria-hidden="true" alt="">
+                            
+                            {{-- White logo for transparent header --}}
+                            <img src="{{ asset('media/logo/tot_white.png') }}" alt="Traventure" id="logo-white" class="absolute inset-0 h-full w-full object-contain transition-opacity duration-300 {{ $isHome ? 'opacity-100' : 'opacity-0' }}">
+                            
+                            {{-- Cyan logo for solid white header --}}
+                            <img src="{{ asset('media/logo/tot_cyan.png') }}" alt="Traventure" id="logo-cyan" class="absolute inset-0 h-full w-full object-contain transition-opacity duration-300 {{ $isHome ? 'opacity-0' : 'opacity-100' }}">
+                        </a>
                     </div>
                     <nav class="hidden lg:flex lg:space-x-8 items-center" id="desktop-nav">
                         
@@ -162,7 +171,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.getElementById('main-header');
-            const logo = document.getElementById('logo-text');
+            const logoWhite = document.getElementById('logo-white'); const logoCyan = document.getElementById('logo-cyan');
             const navLinks = document.querySelectorAll('.nav-link');
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const authBtn = document.querySelector('.auth-btn');
@@ -173,8 +182,7 @@
                     header.classList.remove('bg-transparent', 'border-transparent');
                     header.classList.add('bg-bg-base', 'border-b', 'border-border-subtle', 'shadow-sm');
                     
-                    logo.classList.remove('text-white');
-                    logo.classList.add('text-brand-primary');
+                    if (logoWhite && logoCyan) { logoWhite.classList.remove('opacity-100'); logoWhite.classList.add('opacity-0'); logoCyan.classList.remove('opacity-0'); logoCyan.classList.add('opacity-100'); }
 
                     navLinks.forEach(link => {
                         link.classList.remove('text-white/90', 'text-white', 'hover:text-white');
@@ -198,8 +206,7 @@
                     header.classList.remove('bg-bg-base', 'border-b', 'border-border-subtle', 'shadow-sm');
                     header.classList.add('bg-transparent', 'border-transparent');
                     
-                    logo.classList.remove('text-brand-primary');
-                    logo.classList.add('text-white');
+                    if (logoWhite && logoCyan) { logoWhite.classList.remove('opacity-0'); logoWhite.classList.add('opacity-100'); logoCyan.classList.remove('opacity-100'); logoCyan.classList.add('opacity-0'); }
 
                     navLinks.forEach(link => {
                         if (link.tagName === 'SPAN') {
@@ -260,3 +267,5 @@
     </footer>
 </body>
 </html>
+
+
