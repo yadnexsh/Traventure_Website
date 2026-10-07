@@ -142,7 +142,7 @@
 </script>
 
 {{-- DISCOVERY INTRODUCTION --}}
-<div class="bg-bg-base pt-20 pb-32 border-b border-border-subtle">
+<div class="bg-bg-base pt-20 pb-32 border-b border-border-subtle" x-data="trekDiscovery()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="mb-24 text-center max-w-3xl mx-auto">
@@ -151,103 +151,162 @@
         </div>
 
         {{-- 1. Treks by Month --}}
-        <div class="mb-32">
-            <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center">Treks by Month</h3>
+        <div class="mb-32 relative">
+            <div class="flex items-center justify-between mb-12">
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em]">Treks by Month</h3>
+                <button @click="clearFilters()" x-show="activeMonth || activeSeason || activeDifficulty" style="display: none;" class="text-xs tracking-[0.2em] font-bold uppercase text-brand-primary hover:text-brand-secondary transition-colors">
+                    Clear Filters
+                </button>
+            </div>
             <div class="flex overflow-x-auto pb-4 justify-between gap-8 scrollbar-hide snap-x">
-                @foreach(['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'] as $month)
-                    <a href="#" class="snap-start flex-none text-2xl md:text-3xl font-light text-text-muted hover:text-brand-primary transition-colors focus:outline-none focus:text-brand-primary">
-                        {{ $month }}
-                    </a>
+                @foreach(['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'] as $month)
+                    <button @click="toggleMonth('{{ $month }}')" 
+                        :class="activeMonth === '{{ $month }}' ? 'text-brand-primary font-bold' : 'text-text-muted font-light'"
+                        class="snap-start flex-none text-2xl md:text-3xl hover:text-brand-primary transition-colors focus:outline-none uppercase">
+                        {{ substr($month, 0, 3) }}
+                    </button>
                 @endforeach
             </div>
             <div class="h-px w-full bg-border-subtle mt-4"></div>
         </div>
+        
+        {{-- Treks by Season & Difficulty --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
+            {{-- Treks by Season --}}
+            <div>
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center lg:text-left">Treks by Season</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    @foreach(['Winter', 'Summer', 'Monsoon', 'Spring', 'Autumn'] as $season)
+                        <button @click="toggleSeason('{{ $season }}')" 
+                            :class="activeSeason === '{{ $season }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                            class="py-6 px-4 text-center border border-border-strong transition-colors focus:outline-none uppercase tracking-widest font-medium text-sm">
+                            {{ $season }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
 
-        {{-- 2. Treks by Season --}}
-        <div class="mb-32">
-            <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center">Treks by Season</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach([
-                    ['name' => 'WINTER', 'img' => 'media/header/header (1).jpg'],
-                    ['name' => 'SUMMER', 'img' => 'media/header/header (2).jpg'],
-                    ['name' => 'MONSOON', 'img' => 'media/header/header (3).jpg'],
-                    ['name' => 'AUTUMN', 'img' => 'media/header/header (1).jpg']
-                ] as $season)
-                    <a href="#" class="group relative aspect-square overflow-hidden bg-bg-subtle block">
-                        <img src="{{ asset($season['img']) }}" alt="{{ $season['name'] }}" class="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-[2000ms] group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-white text-2xl tracking-[0.2em] font-medium">{{ $season['name'] }}</span>
+            {{-- Treks by Difficulty --}}
+            <div>
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center lg:text-left">Treks by Difficulty</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    @foreach(['Easy', 'Moderate', 'Hard', 'Expert'] as $difficulty)
+                        <button @click="toggleDifficulty('{{ $difficulty }}')" 
+                            :class="activeDifficulty === '{{ $difficulty }}' ? 'bg-text-primary text-bg-base' : 'bg-transparent text-text-secondary border-border-strong hover:bg-bg-subtle border'"
+                            class="py-6 px-4 text-center border-border-strong transition-colors focus:outline-none uppercase tracking-widest font-medium text-sm">
+                            {{ $difficulty }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        {{-- MATCHING TREKS RESULTS --}}
+        <div>
+            <div class="flex items-end justify-between mb-12 border-b border-border-subtle pb-6" x-show="filteredTreks.length > 0">
+                <h3 class="text-3xl font-bold text-text-primary tracking-tight">Matching Treks</h3>
+                <span class="text-sm text-text-muted font-bold tracking-[0.2em] uppercase" x-text="filteredTreks.length + (filteredTreks.length === 1 ? ' Trek' : ' Treks')"></span>
+            </div>
+
+            {{-- Cards Grid --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" x-show="filteredTreks.length > 0">
+                <template x-for="trek in filteredTreks" :key="trek.id">
+                    <a :href="'/treks/' + trek.slug" class="group block relative aspect-[4/5] bg-bg-subtle overflow-hidden">
+                        <img :src="trek.image_url || '/media/placeholder.jpg'" :alt="trek.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-80" loading="lazy" onerror="this.src='/media/header/header (2).jpg'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        
+                        <div class="absolute top-6 left-6">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1" x-text="trek.difficulty"></span>
+                        </div>
+
+                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                            <h3 class="text-3xl font-bold text-white mb-2 leading-tight" x-text="trek.title"></h3>
+                            
+                            <div class="flex items-center text-white/70 text-sm tracking-widest uppercase mb-4 space-x-4">
+                                <span x-show="trek.region" x-text="trek.region"></span>
+                                <span x-show="trek.region">&bull;</span>
+                                <span x-text="trek.duration + ' Days'"></span>
+                                <span>&bull;</span>
+                                <span x-text="'₹' + (trek.price / 100).toLocaleString()"></span>
+                            </div>
+                            
+                            <div x-show="trek.best_months && trek.best_months.length > 0" class="mb-4">
+                                <span class="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em] block mb-1">Best Time</span>
+                                <span class="text-white/90 font-light text-sm tracking-widest uppercase" x-text="trek.best_months ? (trek.best_months.length > 2 ? trek.best_months.slice(0,2).map(m => m.substring(0,3)).join(', ') + ' +' + (trek.best_months.length - 2) : trek.best_months.map(m => m.substring(0,3)).join(', ')) : ''"></span>
+                            </div>
+
+                            <p class="text-white/90 text-lg font-light flex items-center">View details <span class="ml-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all">&rarr;</span></p>
                         </div>
                     </a>
-                @endforeach
+                </template>
             </div>
-        </div>
 
-        {{-- 3. Treks by Difficulty --}}
-        <div>
-            <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center">Treks by Difficulty</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border border-border-strong">
-                @foreach(['EASY', 'MODERATE', 'DIFFICULT', 'EXPERT'] as $difficulty)
-                    <a href="#" class="py-12 px-6 text-center border-b sm:border-b-0 sm:border-r last:border-r-0 border-border-strong hover:bg-bg-subtle transition-colors group">
-                        <span class="text-xl tracking-widest text-text-secondary group-hover:text-brand-primary transition-colors font-medium">{{ $difficulty }}</span>
-                    </a>
-                @endforeach
+            {{-- Empty State --}}
+            <div x-show="filteredTreks.length === 0" style="display: none;" class="py-32 text-center flex flex-col items-center justify-center border border-border-subtle bg-bg-subtle">
+                <p class="text-3xl text-text-primary font-bold mb-4 tracking-tight">No treks match this selection.</p>
+                <p class="text-text-secondary font-light text-xl mb-10">Try adjusting your filters or clearing them to see more.</p>
+                <button @click="clearFilters()" class="inline-flex items-center justify-center font-bold text-sm tracking-[0.2em] uppercase px-12 py-5 bg-text-primary text-bg-base hover:bg-brand-primary transition-all focus:outline-none">
+                    Clear Filters
+                </button>
             </div>
         </div>
 
     </div>
 </div>
 
-{{-- UPCOMING TREKS --}}
-<div class="bg-bg-base py-32 border-b border-border-subtle">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-20">
-            <div>
-                <h2 class="text-4xl md:text-5xl font-bold text-text-primary tracking-tight mb-4">Coming up next</h2>
-                <p class="text-xl text-text-secondary font-light">Trails worth getting out for.</p>
-            </div>
-            <a href="{{ route('treks.index') }}" class="hidden sm:inline-flex items-center text-sm uppercase tracking-widest font-bold text-text-primary hover:text-brand-primary mt-6 sm:mt-0 transition-colors pb-1 border-b border-text-primary hover:border-brand-primary">
-                View all treks
-            </a>
-        </div>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('trekDiscovery', () => ({
+            treks: @json($allTreks),
+            activeMonth: null,
+            activeSeason: null,
+            activeDifficulty: null,
+            
+            toggleMonth(month) {
+                this.activeMonth = this.activeMonth === month ? null : month;
+            },
+            
+            toggleSeason(season) {
+                this.activeSeason = this.activeSeason === season ? null : season;
+            },
+            
+            toggleDifficulty(difficulty) {
+                this.activeDifficulty = this.activeDifficulty === difficulty ? null : difficulty;
+            },
+            
+            clearFilters() {
+                this.activeMonth = null;
+                this.activeSeason = null;
+                this.activeDifficulty = null;
+            },
+            
+            get filteredTreks() {
+                return this.treks.filter(trek => {
+                    let match = true;
+                    
+                    if (this.activeDifficulty && trek.difficulty !== this.activeDifficulty) {
+                        match = false;
+                    }
+                    
+                    if (this.activeMonth && match) {
+                        if (!trek.best_months || !trek.best_months.includes(this.activeMonth)) {
+                            match = false;
+                        }
+                    }
 
-        @if($featuredTreks->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                @foreach($featuredTreks->take(3) as $trek)
-                    <x-trek-card :trek="$trek" />
-                @endforeach
-            </div>
-        @else
-            <div class="py-32 text-center">
-                <p class="text-xl text-text-secondary font-light">We're currently preparing our upcoming season. Check back soon.</p>
-            </div>
-        @endif
-        
-        <div class="mt-12 sm:hidden text-center">
-            <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-widest uppercase pb-2 border-b border-text-primary text-text-primary hover:text-brand-primary transition-colors">
-                View all treks
-            </a>
-        </div>
+                    if (this.activeSeason && match) {
+                        if (!trek.season || !trek.season.includes(this.activeSeason)) {
+                            match = false;
+                        }
+                    }
+                    
+                    return match;
+                });
+            }
+        }));
+    });
+</script>
 
-    </div>
-</div>
-
-{{-- CINEMATIC FEATURE SECTION --}}
-<div class="relative w-full h-[60vh] md:h-[70vh] bg-black">
-    <div class="absolute inset-0 overflow-hidden">
-        <img src="{{ asset('media/header/header (2).jpg') }}" alt="The mountains are waiting" class="absolute inset-0 w-full h-full object-cover opacity-60 fixed-bg" loading="lazy">
-    </div>
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 sm:px-6 max-w-4xl mx-auto z-10">
-        <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 tracking-tight uppercase leading-[1.1]">The mountains<br>are waiting</h2>
-        <p class="text-xl md:text-2xl text-white/90 mb-12 font-light">Some journeys stay with you.</p>
-        <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-widest uppercase pb-2 border-b-2 border-white text-white hover:text-brand-primary hover:border-brand-primary transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary">
-            Explore the trail
-        </a>
-    </div>
-</div>
 
 {{-- WHAT ARE YOU LOOKING FOR? --}}
 <div class="bg-bg-base py-32 border-b border-border-subtle">
@@ -331,11 +390,15 @@
         {{-- TEAM & JOURNAL --}}
         <div class="flex flex-col">
             {{-- TEAM --}}
-            <div class="py-24 px-12 lg:px-24 border-b border-border-subtle flex-1 flex flex-col justify-center">
-                <h2 class="text-3xl font-bold text-text-primary mb-6 tracking-tight">The people behind the journeys</h2>
-                <p class="text-xl text-text-secondary font-light mb-8 max-w-md">Meet the people who make each journey possible.</p>
-                <div class="mt-auto">
-                    <span class="text-sm font-bold uppercase tracking-[0.1em] text-text-muted">Team profiles coming soon</span>
+            <div class="py-24 px-12 lg:px-24 border-b border-border-subtle flex-1 flex flex-col justify-center relative overflow-hidden group">
+                <img src="{{ asset('media/team/team_banner.jpg') }}" alt="Traventure Team" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-60">
+                <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-500"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <h2 class="text-3xl font-bold text-white mb-6 tracking-tight">The people behind the journeys</h2>
+                    <p class="text-xl text-white/80 font-light mb-8 max-w-md">Meet the people who make each journey possible.</p>
+                    <div class="mt-auto">
+                        <span class="text-sm font-bold uppercase tracking-[0.1em] text-white/60">Team profiles coming soon</span>
+                    </div>
                 </div>
             </div>
             

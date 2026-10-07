@@ -15,3 +15,4 @@ class Trek extends Model
         return $this->hasMany(Departure::class);
     }
 }
+
