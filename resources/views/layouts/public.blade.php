@@ -64,10 +64,10 @@
                                     {{-- Column 2 --}}
                                     <div class="space-y-6">
                                         <div>
-                                            <h4 class="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Regions</h4>
+                                            <h4 class="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Regional Treks</h4>
                                             <ul class="space-y-2">
-                                                <li><a href="#" class="text-sm text-text-secondary hover:text-brand-primary flex justify-between items-center">Sahyadri Treks <span class="text-[10px] bg-bg-subtle px-2 py-0.5 rounded text-text-muted uppercase">Soon</span></a></li>
-                                                <li><a href="#" class="text-sm text-text-secondary hover:text-brand-primary flex justify-between items-center">Himalayan Treks <span class="text-[10px] bg-bg-subtle px-2 py-0.5 rounded text-text-muted uppercase">Soon</span></a></li>
+                                                <li><a href="{{ route('treks.region', 'sahyadri') }}" class="text-sm text-text-secondary hover:text-brand-primary flex justify-between items-center">Sahyadri Treks</a></li>
+                                                <li><a href="{{ route('treks.region', 'himalayan') }}" class="text-sm text-text-secondary hover:text-brand-primary flex justify-between items-center">Himalayan Treks</a></li>
                                             </ul>
                                         </div>
                                         <div>
@@ -87,7 +87,7 @@
 
                         <a href="{{ route('treks.index') }}" class="nav-link text-sm font-medium transition-colors {{ $isHome ? 'text-white/90 hover:text-white' : 'text-text-secondary hover:text-brand-primary' }}">Upcoming Treks</a>
                         <a href="#" class="nav-link text-sm font-medium transition-colors {{ $isHome ? 'text-white/90 hover:text-white' : 'text-text-secondary hover:text-brand-primary' }}">Leisure Trips</a>
-                        <a href="#" class="nav-link text-sm font-medium transition-colors {{ $isHome ? 'text-white/90 hover:text-white' : 'text-text-secondary hover:text-brand-primary' }}">About Us</a>
+                        <a href="{{ route('about') }}" class="nav-link text-sm font-medium transition-colors {{ $isHome ? 'text-white/90 hover:text-white' : 'text-text-secondary hover:text-brand-primary' }}">About Us</a>
                     </nav>
                 </div>
 
@@ -133,9 +133,12 @@
                 <a href="#" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">Treks by Season</a>
                 <a href="#" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">Treks by Difficulty</a>
                 
-                <div class="px-4 py-2 mt-2 font-bold text-text-muted uppercase text-xs tracking-wider">Regions</div>
-                <a href="#" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary flex justify-between items-center">Sahyadri Treks <span class="text-[10px] bg-bg-subtle px-2 py-0.5 rounded text-text-muted uppercase">Soon</span></a>
-                <a href="#" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary flex justify-between items-center">Himalayan Treks <span class="text-[10px] bg-bg-subtle px-2 py-0.5 rounded text-text-muted uppercase">Soon</span></a>
+                <div class="px-4 py-2 mt-2 font-bold text-text-muted uppercase text-xs tracking-wider">Regional Treks</div>
+                <a href="{{ route('treks.region', 'sahyadri') }}" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary flex justify-between items-center">Sahyadri Treks</a>
+                <a href="{{ route('treks.region', 'himalayan') }}" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary flex justify-between items-center">Himalayan Treks</a>
+
+                <div class="px-4 py-2 mt-2 font-bold text-text-muted uppercase text-xs tracking-wider">Company</div>
+                <a href="{{ route('about') }}" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary">About Us</a>
 
                 <div class="px-4 py-2 mt-2 font-bold text-text-muted uppercase text-xs tracking-wider">Trip Type</div>
                 <a href="#" class="block px-6 py-2 text-base font-medium text-text-secondary hover:bg-bg-subtle hover:text-brand-primary flex justify-between items-center">Day Treks <span class="text-[10px] bg-bg-subtle px-2 py-0.5 rounded text-text-muted uppercase">Soon</span></a>
@@ -257,6 +260,7 @@
                 </div>
                 <div class="flex justify-center space-x-6 md:order-2 text-sm text-text-secondary">
                     <a href="{{ route('treks.index') }}" class="hover:text-brand-primary transition-colors">Explore Treks</a>
+                    <a href="{{ route('about') }}" class="hover:text-brand-primary transition-colors">About Us</a>
                     @auth
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
