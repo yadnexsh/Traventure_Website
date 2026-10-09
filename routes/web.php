@@ -5,7 +5,9 @@ use App\Http\Controllers\PublicTrekController;
 
 Route::get('/', [PublicTrekController::class, 'home'])->name('home');
 Route::get('/treks', [PublicTrekController::class, 'index'])->name('treks.index');
+Route::get('/treks/region/{region}', [PublicTrekController::class, 'index'])->name('treks.region');
 Route::get('/treks/{trek:slug}', [PublicTrekController::class, 'show'])->name('treks.show');
+Route::get('/about', [PublicTrekController::class, 'about'])->name('about');
 
 Route::get('/departures/{departure}/interest', [\App\Http\Controllers\ExpressionOfInterestController::class, 'create'])->name('interest.create');
 Route::post('/departures/{departure}/interest', [\App\Http\Controllers\ExpressionOfInterestController::class, 'store'])

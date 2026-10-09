@@ -142,19 +142,19 @@
 </script>
 
 {{-- DISCOVERY INTRODUCTION --}}
-<div class="bg-bg-base pt-20 pb-32 border-b border-border-subtle" x-data="trekDiscovery()">
+<div class="bg-bg-base pt-10 pb-32 border-b border-border-subtle" x-data="trekDiscovery()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="mb-24 text-center max-w-3xl mx-auto">
-            <h2 class="text-3xl md:text-4xl lg:text-[40px] xl:text-[48px] font-bold text-text-primary tracking-tight mb-6 whitespace-normal md:whitespace-nowrap leading-tight">Where travel meets true adventure.</h2>
-            <p class="text-xl md:text-2xl text-text-secondary font-light">Find the trail that fits your time, your season and your spirit.</p>
+        <div class="mb-12 text-center max-w-5xl mx-auto flex flex-col items-center justify-center">
+            <h2 class="text-4xl md:text-5xl lg:text-[52px] xl:text-[62px] font-bold text-text-primary tracking-tight mb-3 whitespace-normal md:whitespace-nowrap leading-tight">Where travel meets true adventure.</h2>
+            <p class="text-2xl md:text-3xl text-text-secondary font-light">Find the trail that fits your time, your season and your spirit.</p>
         </div>
 
         {{-- 1. Treks by Month --}}
-        <div class="mb-32 relative">
-            <div class="flex items-center justify-between mb-12">
-                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em]">Treks by Month</h3>
-                <button @click="clearFilters()" x-show="activeMonth || activeSeason || activeDifficulty" style="display: none;" class="text-xs tracking-[0.2em] font-bold uppercase text-brand-primary hover:text-brand-secondary transition-colors">
+        <div class="mb-16 relative">
+            <div class="flex flex-col items-center justify-center mb-12">
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] text-center">Treks by Month</h3>
+                <button @click="clearFilters()" x-show="activeMonth || activeSeason || activeDifficulty" style="display: none;" class="mt-4 text-xs tracking-[0.2em] font-bold uppercase text-brand-primary hover:text-brand-secondary transition-colors">
                     Clear Filters
                 </button>
             </div>
@@ -170,37 +170,120 @@
             <div class="h-px w-full bg-border-subtle mt-4"></div>
         </div>
         
-        {{-- Treks by Season & Difficulty --}}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
-            {{-- Treks by Season --}}
-            <div>
-                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center lg:text-left">Treks by Season</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    @foreach(['Winter', 'Summer', 'Monsoon', 'Spring', 'Autumn'] as $season)
-                        <button @click="toggleSeason('{{ $season }}')" 
-                            :class="activeSeason === '{{ $season }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
-                            class="py-6 px-4 text-center border border-border-strong transition-colors focus:outline-none uppercase tracking-widest font-medium text-sm">
-                            {{ $season }}
-                        </button>
-                    @endforeach
-                </div>
-            </div>
+                        {{-- Interactive Season Accordion --}}
+        <div class="mb-24">
+            <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center">Treks by Season</h3>
+            
+            <div class="relative w-full h-[480px] md:h-[500px] lg:h-[520px] overflow-hidden flex flex-row">
+                @foreach([
+                    ['name' => 'Summer', 'image' => 'header (2).jpg', 'subtitle' => 'High altitude cool breezes.'],
+                    ['name' => 'Monsoon', 'image' => 'header (2).jpg', 'subtitle' => 'Lush green and vibrant landscapes.'],
+                    ['name' => 'Autumn', 'image' => 'header (1).jpg', 'subtitle' => 'Post-rain clarity and starry nights.'],
+                    ['name' => 'Spring', 'image' => 'header (3).jpg', 'subtitle' => 'Blooming flowers and pleasant weather.'],
+                    ['name' => 'Winter', 'image' => 'header (3).jpg', 'subtitle' => 'Cold, crisp and clear trails.']
+                ] as $seasonInfo)
+                    <div 
+                        role="button"
+                        tabindex="0"
+                        @keydown.enter.self="toggleSeason('{{ $seasonInfo['name'] }}')"
+                        @keydown.space.self.prevent="toggleSeason('{{ $seasonInfo['name'] }}')"
+                        @click="toggleSeason('{{ $seasonInfo['name'] }}')"
+                        :aria-expanded="activeSeason === '{{ $seasonInfo['name'] }}' ? 'true' : 'false'"
+                        aria-label="{{ $seasonInfo['name'] }} Season"
+                        :class="{
+                            'is-expanded': activeSeason === '{{ $seasonInfo['name'] }}',
+                            'is-collapsed': activeSeason && activeSeason !== '{{ $seasonInfo['name'] }}',
+                            'cursor-pointer': activeSeason !== '{{ $seasonInfo['name'] }}'
+                        }"
+                        class="season-panel group focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-primary">
+                        
+                        {{-- Background Image --}}
+                        <img src="{{ asset('media/header/' . $seasonInfo['image']) }}" 
+                             alt="{{ $seasonInfo['name'] }}" 
+                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out select-none pointer-events-none" 
+                             :class="activeSeason === '{{ $seasonInfo['name'] }}' ? 'scale-105' : 'group-hover:scale-102'">
+                        <div class="absolute inset-0 transition-colors duration-500 pointer-events-none" 
+                             :class="activeSeason === '{{ $seasonInfo['name'] }}' ? 'bg-black/65' : 'bg-black/40 group-hover:bg-black/25'">
+                        </div>
+                        
+                        {{-- Unexpanded State Content --}}
+                        <div x-show="activeSeason !== '{{ $seasonInfo['name'] }}'" 
+                             x-transition:leave="transition opacity duration-150"
+                             x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0"
+                             class="absolute inset-0 flex flex-col justify-end pointer-events-none transition-all duration-500" 
+                             :class="activeSeason ? 'items-center pb-6 md:pb-8 p-0' : 'items-start p-4 md:p-8'">
+                            <span class="text-white font-bold tracking-widest uppercase transition-all duration-500 whitespace-nowrap drop-shadow" 
+                                  :class="activeSeason ? 'text-[11px] md:text-sm' : 'text-sm md:text-xl'"
+                                  :style="activeSeason ? 'writing-mode: vertical-rl; transform: rotate(180deg);' : ''">
+                                {{ $seasonInfo['name'] }}
+                            </span>
+                        </div>
 
-            {{-- Treks by Difficulty --}}
-            <div>
-                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-12 text-center lg:text-left">Treks by Difficulty</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    @foreach(['Easy', 'Moderate', 'Hard', 'Expert'] as $difficulty)
-                        <button @click="toggleDifficulty('{{ $difficulty }}')" 
-                            :class="activeDifficulty === '{{ $difficulty }}' ? 'bg-text-primary text-bg-base' : 'bg-transparent text-text-secondary border-border-strong hover:bg-bg-subtle border'"
-                            class="py-6 px-4 text-center border-border-strong transition-colors focus:outline-none uppercase tracking-widest font-medium text-sm">
-                            {{ $difficulty }}
-                        </button>
-                    @endforeach
-                </div>
+                        {{-- Expanded State Content --}}
+                        <div x-show="activeSeason === '{{ $seasonInfo['name'] }}'" 
+                             style="display: none;" 
+                             x-transition:enter="transition ease-out duration-500 delay-250"
+                             x-transition:enter-start="opacity-0 translate-y-4"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0"
+                             class="absolute inset-0 p-6 md:p-12 lg:p-16 flex flex-col z-10 overflow-hidden">
+                            
+                            <div class="pr-10">
+                                <h3 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-2 tracking-tight">{{ $seasonInfo['name'] }}</h3>
+                                <p class="text-white/80 text-xs md:text-base lg:text-lg font-light mb-6 md:mb-10 line-clamp-2 md:line-clamp-none max-w-xl">{{ $seasonInfo['subtitle'] }}</p>
+                            </div>
+
+                            <div class="mt-auto">
+                                <div class="flex flex-col gap-2.5 md:gap-4 mb-6 md:mb-8">
+                                    @foreach(['Easy', 'Moderate', 'Hard', 'Expert'] as $difficulty)
+                                        <button 
+                                            type="button"
+                                            @click.stop="toggleDifficulty('{{ $difficulty }}')"
+                                            @dblclick.stop="activeDifficulty = '{{ $difficulty }}'; window.location.href = buildUrl()"
+                                            :class="activeDifficulty === '{{ $difficulty }}' ? 'text-brand-primary pl-4 border-l-2 border-brand-primary' : 'text-white/70 hover:text-white hover:pl-2 border-l-2 border-transparent'"
+                                            class="text-left font-bold text-xs md:text-base tracking-widest uppercase transition-all duration-200 focus:outline-none w-max py-0.5">
+                                            {{ $difficulty }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                                
+                                <div>
+                                    <button 
+                                        type="button"
+                                        @click.stop="window.location.href = buildUrl()" 
+                                        class="font-bold text-xs md:text-sm tracking-[0.2em] uppercase text-white hover:text-brand-primary transition-colors focus:outline-none group flex items-center">
+                                        Explore All &gt;
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            {{-- Collapse Button --}}
+                            <button 
+                                type="button"
+                                @click.stop="toggleSeason('{{ $seasonInfo['name'] }}')" 
+                                class="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white transition-colors focus:outline-none p-2 rounded-full hover:bg-white/10"
+                                aria-label="Collapse {{ $seasonInfo['name'] }} season panel">
+                                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            
+            {{-- Default Action when no season selected --}}
+            <div x-show="!activeSeason" class="mt-8 flex justify-center">
+                <button 
+                    type="button"
+                    @click="window.location.href = buildUrl()" 
+                    class="inline-flex items-center justify-center font-bold text-xs tracking-[0.2em] uppercase px-8 py-3 border border-border-strong text-text-primary hover:bg-bg-subtle transition-colors focus:outline-none">
+                    Explore All Treks
+                </button>
             </div>
         </div>
-
+        
         {{-- WHAT ARE YOU LOOKING FOR? --}}
 <div class="bg-bg-base py-32 border-b border-border-subtle">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -322,5 +405,53 @@
         </a>
     </div>
 </div>
+
+
+<script>
+    window.treksBaseUrl = '{{ route("treks.index") }}';
+    function registerTrekDiscovery() {
+        const factory = () => ({
+            activeMonth: null,
+            activeSeason: null,
+            activeDifficulty: null,
+
+            toggleMonth(month) {
+                this.activeMonth = this.activeMonth === month ? null : month;
+            },
+
+            toggleSeason(season) {
+                this.activeSeason = this.activeSeason === season ? null : season;
+                this.activeDifficulty = null;
+            },
+
+            toggleDifficulty(difficulty) {
+                this.activeDifficulty = this.activeDifficulty === difficulty ? null : difficulty;
+            },
+
+            clearFilters() {
+                this.activeMonth = null;
+                this.activeSeason = null;
+                this.activeDifficulty = null;
+            },
+
+            buildUrl() {
+                const baseUrl = window.treksBaseUrl || '/treks';
+                const url = new URL(baseUrl, window.location.origin);
+                if (this.activeMonth) url.searchParams.append('month', this.activeMonth);
+                if (this.activeSeason) url.searchParams.append('season', this.activeSeason);
+                if (this.activeDifficulty) url.searchParams.append('difficulty', this.activeDifficulty);
+                return url.toString();
+            }
+        });
+
+        window.trekDiscovery = factory;
+        if (window.Alpine) {
+            window.Alpine.data('trekDiscovery', factory);
+        }
+    }
+
+    document.addEventListener('alpine:init', registerTrekDiscovery);
+    registerTrekDiscovery();
+</script>
 
 @endsection

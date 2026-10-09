@@ -3,14 +3,27 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     
-    <div class="mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4 tracking-tight uppercase">Explore Treks</h1>
-        <p class="text-xl text-text-secondary font-light">Discover your next adventure from our curated list of high-quality expeditions.</p>
-    </div>
+    {{-- Header or Regional Banner --}}
+    @if(isset($regionData))
+        <div class="relative w-full aspect-[16/7] md:aspect-[21/9] min-h-[240px] rounded-sm overflow-hidden mb-12 border border-border-subtle">
+            <img src="{{ asset($regionData['banner']) }}" alt="{{ $regionData['name'] }}" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent"></div>
+            <div class="absolute inset-0 p-8 md:p-14 flex flex-col justify-end text-white">
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary mb-2">Regional Collection</span>
+                <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-3">{{ $regionData['name'] }}</h1>
+                <p class="text-white/80 text-sm md:text-base font-light max-w-2xl">{{ $regionData['intro'] }}</p>
+            </div>
+        </div>
+    @else
+        <div class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4 tracking-tight uppercase">Explore Treks</h1>
+            <p class="text-xl text-text-secondary font-light">Discover your next adventure from our curated list of high-quality expeditions.</p>
+        </div>
+    @endif
 
     {{-- Filters --}}
     <div class="bg-bg-subtle p-8 rounded-sm border border-border-subtle mb-16">
-        <form action="{{ route('treks.index') }}" method="GET" id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <form action="{{ isset($regionData) ? route('treks.region', $regionData['slug']) : route('treks.index') }}" method="GET" id="filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-8">
             
             {{-- Search --}}
             <div>
@@ -57,7 +70,7 @@
                 </div>
                 <div class="flex gap-6 w-full md:w-auto">
                     @if(request()->anyFilled(['search', 'month', 'season', 'difficulty']))
-                        <a href="{{ route('treks.index') }}" class="flex-1 md:flex-none inline-flex items-center justify-center font-bold text-xs tracking-widest uppercase text-text-muted hover:text-text-primary transition-colors px-4 py-3">
+                        <a href="{{ isset($regionData) ? route('treks.region', $regionData['slug']) : route('treks.index') }}" class="flex-1 md:flex-none inline-flex items-center justify-center font-bold text-xs tracking-widest uppercase text-text-muted hover:text-text-primary transition-colors px-4 py-3">
                             Clear Filters
                         </a>
                     @endif
@@ -79,7 +92,7 @@
         <div class="py-32 text-center border border-border-subtle bg-bg-subtle/30 rounded-sm">
             <h3 class="text-3xl font-bold text-text-primary mb-4 tracking-tight uppercase">No treks found</h3>
             <p class="text-text-secondary font-light text-xl mb-10">Try adjusting your filters or clearing them to see more.</p>
-            <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-[0.2em] uppercase px-12 py-4 bg-text-primary text-bg-base hover:bg-text-secondary transition-colors focus:outline-none">
+            <a href="{{ isset($regionData) ? route('treks.region', $regionData['slug']) : route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-[0.2em] uppercase px-12 py-4 bg-text-primary text-bg-base hover:bg-text-secondary transition-colors focus:outline-none">
                 Clear All Filters
             </a>
         </div>
