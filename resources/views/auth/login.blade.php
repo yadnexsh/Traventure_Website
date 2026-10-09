@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-md mx-auto mt-16 px-4 sm:px-6">
-    <x-card class="p-8">
+    <x-card>
         <div class="text-center mb-8">
             <h2 class="text-2xl font-bold text-text-primary">Welcome back</h2>
             <p class="text-sm text-text-secondary mt-1">Sign in to manage your adventures.</p>

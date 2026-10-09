@@ -5,7 +5,7 @@
         </div>
     @endif
     
-    <div class="p-6">
+    <div class="px-4 py-6 sm:px-8 sm:py-8">
         {{ $slot }}
     </div>
     

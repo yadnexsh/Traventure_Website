@@ -1,11 +1,10 @@
 @props(['trek'])
 
-<x-card class="flex flex-col h-full group hover:shadow-md transition-shadow">
+<x-card class="flex flex-col h-full group hover:shadow-md transition-shadow relative">
     {{-- Optional Image Placeholder --}}
-    <div class="h-48 bg-bg-subtle flex items-center justify-center border-b border-border-subtle -mt-6 -mx-6 mb-4 overflow-hidden">
-        <svg class="h-12 w-12 text-text-muted group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
+    <div class="h-48 bg-bg-subtle flex items-center justify-center border-b border-border-subtle -mt-6 -mx-6 mb-4 overflow-hidden relative group">
+        <img src="{{ !empty($trek->image_url) ? asset($trek->image_url) : asset('media/placeholder.jpg') }}" alt="{{ $trek->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='{{ asset('media/header/header (2).jpg') }}'">
+        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
     </div>
 
     <div class="flex-grow flex flex-col">
@@ -42,3 +41,4 @@
         </div>
     </div>
 </x-card>
+

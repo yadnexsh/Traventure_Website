@@ -65,4 +65,9 @@ Route::middleware(['auth', 'admin_or_staff'])->prefix('admin')->name('admin.')->
     Route::post('seat-allocations/{seatAllocation}/release', [\App\Http\Controllers\Admin\SeatAllocationController::class, 'release'])->name('seat-allocations.release');
 });
 
+
+// Journal Routes
+Route::get('/journal', [\App\Http\Controllers\JournalController::class, 'index'])->name('journal.index');
+Route::get('/journal/{slug}', [\App\Http\Controllers\JournalController::class, 'show'])->name('journal.show');
+
 require __DIR__.'/auth.php';

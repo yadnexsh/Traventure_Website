@@ -19,10 +19,11 @@
 {{-- Trek Hero --}}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
     <div class="bg-bg-subtle rounded-xl overflow-hidden shadow-sm border border-border-subtle relative h-64 md:h-96 flex items-center justify-center">
-        {{-- Visual Placeholder --}}
-        <svg class="h-24 w-24 text-text-muted opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
+        @if(!empty($trek->image_url))
+            <img src="{{ asset($trek->image_url) }}" alt="{{ $trek->title }}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='{{ asset('media/header/header (2).jpg') }}'">
+        @else
+            <img src="{{ asset('media/placeholder.jpg') }}" alt="{{ $trek->title }}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='{{ asset('media/header/header (2).jpg') }}'">
+        @endif
         <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-6 md:p-10">
             <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ $trek->title }}</h1>
         </div>
@@ -51,6 +52,13 @@
                 <div>
                     <dt class="text-sm font-medium text-text-secondary mb-1">Duration</dt>
                     <dd class="text-base font-semibold text-text-primary">{{ $trek->duration }} days</dd>
+                </div>
+                @endif
+
+                @if(!empty($trek->season) && count($trek->season) > 0)
+                <div>
+                    <dt class="text-sm font-medium text-text-secondary mb-1">Season</dt>
+                    <dd class="text-base font-semibold text-text-primary">{{ implode(', ', $trek->season) }}</dd>
                 </div>
                 @endif
 

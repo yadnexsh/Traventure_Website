@@ -146,7 +146,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="mb-24 text-center max-w-3xl mx-auto">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight mb-6">Your next adventure</h2>
+            <h2 class="text-3xl md:text-4xl lg:text-[40px] xl:text-[48px] font-bold text-text-primary tracking-tight mb-6 whitespace-normal md:whitespace-nowrap leading-tight">Where travel meets true adventure.</h2>
             <p class="text-xl md:text-2xl text-text-secondary font-light">Find the trail that fits your time, your season and your spirit.</p>
         </div>
 
@@ -201,114 +201,7 @@
             </div>
         </div>
 
-        {{-- MATCHING TREKS RESULTS --}}
-        <div>
-            <div class="flex items-end justify-between mb-12 border-b border-border-subtle pb-6" x-show="filteredTreks.length > 0">
-                <h3 class="text-3xl font-bold text-text-primary tracking-tight">Matching Treks</h3>
-                <span class="text-sm text-text-muted font-bold tracking-[0.2em] uppercase" x-text="filteredTreks.length + (filteredTreks.length === 1 ? ' Trek' : ' Treks')"></span>
-            </div>
-
-            {{-- Cards Grid --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" x-show="filteredTreks.length > 0">
-                <template x-for="trek in filteredTreks" :key="trek.id">
-                    <a :href="'/treks/' + trek.slug" class="group block relative aspect-[4/5] bg-bg-subtle overflow-hidden">
-                        <img :src="trek.image_url || '/media/placeholder.jpg'" :alt="trek.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-80" loading="lazy" onerror="this.src='/media/header/header (2).jpg'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        
-                        <div class="absolute top-6 left-6">
-                            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1" x-text="trek.difficulty"></span>
-                        </div>
-
-                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                            <h3 class="text-3xl font-bold text-white mb-2 leading-tight" x-text="trek.title"></h3>
-                            
-                            <div class="flex items-center text-white/70 text-sm tracking-widest uppercase mb-4 space-x-4">
-                                <span x-show="trek.region" x-text="trek.region"></span>
-                                <span x-show="trek.region">&bull;</span>
-                                <span x-text="trek.duration + ' Days'"></span>
-                                <span>&bull;</span>
-                                <span x-text="'₹' + (trek.price / 100).toLocaleString()"></span>
-                            </div>
-                            
-                            <div x-show="trek.best_months && trek.best_months.length > 0" class="mb-4">
-                                <span class="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em] block mb-1">Best Time</span>
-                                <span class="text-white/90 font-light text-sm tracking-widest uppercase" x-text="trek.best_months ? (trek.best_months.length > 2 ? trek.best_months.slice(0,2).map(m => m.substring(0,3)).join(', ') + ' +' + (trek.best_months.length - 2) : trek.best_months.map(m => m.substring(0,3)).join(', ')) : ''"></span>
-                            </div>
-
-                            <p class="text-white/90 text-lg font-light flex items-center">View details <span class="ml-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all">&rarr;</span></p>
-                        </div>
-                    </a>
-                </template>
-            </div>
-
-            {{-- Empty State --}}
-            <div x-show="filteredTreks.length === 0" style="display: none;" class="py-32 text-center flex flex-col items-center justify-center border border-border-subtle bg-bg-subtle">
-                <p class="text-3xl text-text-primary font-bold mb-4 tracking-tight">No treks match this selection.</p>
-                <p class="text-text-secondary font-light text-xl mb-10">Try adjusting your filters or clearing them to see more.</p>
-                <button @click="clearFilters()" class="inline-flex items-center justify-center font-bold text-sm tracking-[0.2em] uppercase px-12 py-5 bg-text-primary text-bg-base hover:bg-brand-primary transition-all focus:outline-none">
-                    Clear Filters
-                </button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('trekDiscovery', () => ({
-            treks: @json($allTreks),
-            activeMonth: null,
-            activeSeason: null,
-            activeDifficulty: null,
-            
-            toggleMonth(month) {
-                this.activeMonth = this.activeMonth === month ? null : month;
-            },
-            
-            toggleSeason(season) {
-                this.activeSeason = this.activeSeason === season ? null : season;
-            },
-            
-            toggleDifficulty(difficulty) {
-                this.activeDifficulty = this.activeDifficulty === difficulty ? null : difficulty;
-            },
-            
-            clearFilters() {
-                this.activeMonth = null;
-                this.activeSeason = null;
-                this.activeDifficulty = null;
-            },
-            
-            get filteredTreks() {
-                return this.treks.filter(trek => {
-                    let match = true;
-                    
-                    if (this.activeDifficulty && trek.difficulty !== this.activeDifficulty) {
-                        match = false;
-                    }
-                    
-                    if (this.activeMonth && match) {
-                        if (!trek.best_months || !trek.best_months.includes(this.activeMonth)) {
-                            match = false;
-                        }
-                    }
-
-                    if (this.activeSeason && match) {
-                        if (!trek.season || !trek.season.includes(this.activeSeason)) {
-                            match = false;
-                        }
-                    }
-                    
-                    return match;
-                });
-            }
-        }));
-    });
-</script>
-
-
-{{-- WHAT ARE YOU LOOKING FOR? --}}
+        {{-- WHAT ARE YOU LOOKING FOR? --}}
 <div class="bg-bg-base py-32 border-b border-border-subtle">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-24">
