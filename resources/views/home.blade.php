@@ -134,40 +134,67 @@
         </div>
 
         {{-- FILTERS --}}
-        <div class="mb-16 space-y-8">
+        <div class="mb-16">
             <div class="flex items-center justify-between border-b border-border-subtle pb-4">
                 <span class="text-sm font-bold uppercase tracking-widest text-text-muted">Filter Treks</span>
-                <button @click="clearFilters()" x-show="activeMonth || activeDifficulty" style="display: none;" class="text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors">
+                <button @click="clearFilters()" x-show="activeMonth || activeSeason || activeDifficulty" style="display: none;" class="text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors">
                     Clear all
                 </button>
             </div>
 
-            {{-- Controls Container --}}
-            <div class="flex flex-col lg:flex-row gap-8 lg:gap-16">
+            {{-- Contr{{-- By Month --}}
+            <div class="mb-10 mt-6">
+                <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-6 text-center">Treks by Month</h3>
+                <div class="flex overflow-x-auto pb-4 gap-2 md:justify-center scrollbar-hide snap-x px-2">
+                    @foreach(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
+                        <button @click="toggleMonth('{{ strtoupper($month) }}')" 
+                            :class="activeMonth === '{{ strtoupper($month) }}' ? 'bg-text-primary text-bg-base border-text-primary shadow-sm' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                            class="snap-start flex-none px-5 py-2.5 text-sm border rounded-full transition-all focus:outline-none font-medium">
+                            {{ $month }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- Controls Container (Season & Difficulty) --}}
+            <div class="flex flex-col lg:flex-row justify-center gap-8 lg:gap-16 pt-8 border-t border-border-subtle">
                 
-                {{-- By Month --}}
-                <div class="flex-1">
-                    <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">By Month</h3>
-                    <div class="flex overflow-x-auto pb-2 gap-2 scrollbar-hide snap-x">
-                        @foreach(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month)
-                            <button @click="toggleMonth('{{ $month }}')" 
-                                :class="activeMonth === '{{ $month }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
-                                class="snap-start flex-none px-4 py-2 text-sm border rounded-full transition-all focus:outline-none">
-                                {{ $month }}
+                {{-- By Season --}}
+                <div class="flex-1 lg:max-w-md">
+                    <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-5 text-center lg:text-left">By Season</h3>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-3">
+                        @foreach([
+                            'Winter' => 'Snow possible on selected high-altitude routes',
+                            'Summer' => 'Seasonal high-altitude adventures',
+                            'Monsoon' => 'Lush landscapes and rainfall',
+                            'Spring' => 'Blooming landscapes on suitable routes',
+                            'Autumn' => 'Clearer skies and seasonal trekking'
+                        ] as $season => $desc)
+                            <button @click="toggleSeason('{{ $season }}')" 
+                                :class="activeSeason === '{{ $season }}' ? 'bg-text-primary text-bg-base border-text-primary shadow-sm' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                                class="flex flex-col items-start px-4 py-3 text-left border rounded-xl transition-all focus:outline-none flex-1 min-w-[160px]">
+                                <span class="font-semibold text-sm mb-1">{{ $season }}</span>
+                                <span class="text-[10px] leading-tight opacity-80" :class="activeSeason === '{{ $season }}' ? 'text-bg-base' : 'text-text-muted'">{{ $desc }}</span>
                             </button>
                         @endforeach
                     </div>
                 </div>
 
                 {{-- By Difficulty --}}
-                <div class="lg:w-1/3">
-                    <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">By Difficulty</h3>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach(['Easy', 'Moderate', 'Difficult', 'Expert'] as $difficulty)
+                <div class="flex-1 lg:max-w-md">
+                    <h3 class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-5 text-center lg:text-left">By Difficulty</h3>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-3">
+                        @foreach([
+                            'Easy' => 'Suitable for beginners',
+                            'Moderate' => 'Requires basic fitness',
+                            'Hard' => 'For experienced trekkers',
+                            'Expert' => 'Technical climbing skills needed'
+                        ] as $difficulty => $desc)
                             <button @click="toggleDifficulty('{{ $difficulty }}')" 
-                                :class="activeDifficulty === '{{ $difficulty }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
-                                class="px-4 py-2 text-sm border rounded-full transition-all focus:outline-none">
-                                {{ $difficulty }}
+                                :class="activeDifficulty === '{{ $difficulty }}' ? 'bg-text-primary text-bg-base border-text-primary shadow-sm' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                                class="flex flex-col items-start px-4 py-3 text-left border rounded-xl transition-all focus:outline-none flex-1 min-w-[140px]">
+                                <span class="font-semibold text-sm mb-1">{{ $difficulty }}</span>
+                                <span class="text-[10px] leading-tight opacity-80" :class="activeDifficulty === '{{ $difficulty }}' ? 'text-bg-base' : 'text-text-muted'">{{ $desc }}</span>
                             </button>
                         @endforeach
                     </div>
@@ -175,7 +202,7 @@
             </div>
         </div>
 
-        {{-- MATCHING TREKS RESULTS --}}
+        ING TREKS RESULTS --}}
         <div>
             <div class="flex items-end justify-between mb-8">
                 <h3 class="text-2xl font-bold text-text-primary tracking-tight" x-text="filteredTreks.length > 0 ? 'Matching Treks' : ''"></h3>
@@ -201,7 +228,11 @@
                         <div class="flex flex-col flex-grow p-6">
                             <h3 class="text-2xl font-bold text-text-primary mb-2 leading-tight tracking-tight group-hover:text-brand-primary transition-colors" x-text="trek.title"></h3>
                             
-                            <div class="flex items-center text-sm text-text-muted mb-4 space-x-4">
+                            <div class="flex flex-wrap items-center text-sm text-text-muted mb-4 gap-4">
+                                <span class="flex items-center" x-show="trek.region">
+                                    <svg class="w-4 h-4 mr-1.5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span x-text="trek.region"></span>
+                                </span>
                                 <span class="flex items-center">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span x-text="trek.duration + ' Days'"></span>
@@ -209,6 +240,12 @@
                             </div>
 
                             <p class="text-text-secondary text-base leading-relaxed font-light mb-6 flex-grow line-clamp-3" x-text="trek.summary"></p>
+                            
+                            {{-- Best Months preview if available --}}
+                            <div x-show="trek.best_months && trek.best_months.length > 0" class="mb-4">
+                                <span class="text-xs text-text-muted uppercase tracking-wider block mb-1">Best Time:</span>
+                                <span class="text-sm text-text-primary font-medium" x-text="trek.best_months ? (trek.best_months.length > 2 ? trek.best_months.slice(0,2).map(m => m.substring(0,3)).join(', ') + ' +' + (trek.best_months.length - 2) : trek.best_months.map(m => m.substring(0,3)).join(', ')) : ''"></span>
+                            </div>
 
                             <div class="pt-4 border-t border-border-subtle mt-auto flex items-center justify-between">
                                 <div class="flex flex-col">
@@ -242,10 +279,15 @@
         Alpine.data('trekDiscovery', () => ({
             treks: @json($allTreks),
             activeMonth: null,
+            activeSeason: null,
             activeDifficulty: null,
             
             toggleMonth(month) {
                 this.activeMonth = this.activeMonth === month ? null : month;
+            },
+            
+            toggleSeason(season) {
+                this.activeSeason = this.activeSeason === season ? null : season;
             },
             
             toggleDifficulty(difficulty) {
@@ -254,6 +296,7 @@
             
             clearFilters() {
                 this.activeMonth = null;
+                this.activeSeason = null;
                 this.activeDifficulty = null;
             },
             
@@ -266,11 +309,15 @@
                     }
                     
                     if (this.activeMonth && match) {
-                        const hasMatch = trek.departures && trek.departures.some(dep => {
-                            const d = new Date(dep.start_time);
-                            return d.toLocaleString('en-US', { month: 'long' }) === this.activeMonth;
-                        });
-                        if (!hasMatch) match = false;
+                        if (!trek.best_months || !trek.best_months.includes(this.activeMonth)) {
+                            match = false;
+                        }
+                    }
+
+                    if (this.activeSeason && match) {
+                        if (!trek.season || !trek.season.includes(this.activeSeason)) {
+                            match = false;
+                        }
                     }
                     
                     return match;
@@ -346,9 +393,13 @@
         <h2 class="text-4xl md:text-5xl font-bold text-text-primary mb-6 tracking-tight">The people behind the journeys</h2>
         <p class="text-xl text-text-secondary max-w-2xl mx-auto mb-16 font-light">Meet the people who make each journey possible.</p>
         
-        <div class="max-w-4xl mx-auto aspect-[2/1] bg-bg-subtle flex flex-col items-center justify-center border border-border-subtle shadow-sm">
-            <span class="text-sm font-bold uppercase tracking-widest text-text-muted mb-2">Team profiles</span>
-            <span class="text-2xl text-text-secondary font-light">Coming Soon</span>
+        <div class="max-w-4xl mx-auto aspect-[2/1] bg-bg-subtle relative overflow-hidden flex flex-col items-center justify-center border border-border-subtle shadow-sm group">
+            <img src="{{ asset('media/team/team_banner.jpg') }}" alt="Traventure Team" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90">
+            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-500"></div>
+            <div class="relative z-10 text-center flex flex-col items-center justify-center">
+                <span class="text-sm font-bold uppercase tracking-widest text-white mb-2">Team profiles</span>
+                <span class="text-2xl text-white/90 font-light">Coming Soon</span>
+            </div>
         </div>
         
         <div class="mt-12">
@@ -359,14 +410,34 @@
 
 {{-- 15. STORIES FROM THE TRAIL --}}
 <div class="bg-bg-subtle py-32 border-b border-border-subtle">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl md:text-5xl font-bold text-text-primary mb-16 tracking-tight">Stories from the trail</h2>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-text-primary tracking-tight">Stories from the trail</h2>
+            <p class="text-xl text-text-secondary mt-4 font-light">People who went trekking with us.</p>
+        </div>
         
-        <div class="max-w-3xl mx-auto py-16 px-8 bg-bg-base border border-border-subtle shadow-sm relative">
-            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-bg-subtle px-4 text-brand-primary">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative aspect-[4/3] bg-bg-subtle overflow-hidden group border border-border-subtle shadow-sm">
+                <img src="{{ asset('media/header/header (2).jpg') }}" alt="Trekker experience" class="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-1000 group-hover:scale-105" loading="lazy">
+                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
             </div>
-            <p class="text-2xl text-text-secondary font-light italic leading-relaxed mt-4">Stories from our trails are coming soon.</p>
+            <div class="px-8 lg:px-12 py-12 bg-bg-base border border-border-subtle shadow-sm relative">
+                <div class="text-brand-primary mb-6">
+                    <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                </div>
+                <p class="text-xl md:text-2xl text-text-primary font-light leading-relaxed italic mb-8">
+                    "I had never done a multi-day trek before. The team at Traventure made sure I was prepared mentally and physically. Standing at the peak, watching the sunrise over the Sahyadris, all the exhaustion just melted away. It was deeply emotional—a journey I'll never forget."
+                </p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold text-lg">
+                        S
+                    </div>
+                    <div>
+                        <div class="font-bold text-text-primary">Surendra J</div>
+                        <div class="text-sm text-text-muted">Kalsubai Sunrise Trek</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -374,17 +445,64 @@
 {{-- 16. TRAVENTURE JOURNAL --}}
 <div class="bg-bg-base py-32 border-b border-border-subtle">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl md:text-5xl font-bold text-text-primary mb-16 tracking-tight text-center md:text-left">From the trail</h2>
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+                <h2 class="text-4xl md:text-5xl font-bold text-text-primary tracking-tight">From the Journal</h2>
+                <p class="text-xl text-text-secondary mt-4 font-light">Knowledge and articles published by Traventure.</p>
+            </div>
+            <a href="{{ route('journal.index') }}" class="inline-flex items-center text-brand-primary font-bold hover:text-brand-secondary transition-colors">
+                View all articles <span class="ml-2">&rarr;</span>
+            </a>
+        </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div class="aspect-[4/3] bg-bg-subtle flex flex-col items-center justify-center border border-border-subtle">
-                <span class="text-sm font-bold uppercase tracking-widest text-text-muted mb-2">Traventure Journal</span>
-                <span class="text-xl text-text-secondary font-light">Coming Soon</span>
-            </div>
-            <div class="aspect-[4/3] bg-bg-subtle flex flex-col items-center justify-center border border-border-subtle">
-                <span class="text-sm font-bold uppercase tracking-widest text-text-muted mb-2">Traventure Journal</span>
-                <span class="text-xl text-text-secondary font-light">Coming Soon</span>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {{-- Article 1 --}}
+            <a href="{{ route('journal.show', 'the-ultimate-winter-trekking-packing-list') }}" class="group flex flex-col h-full bg-bg-base border border-border-subtle overflow-hidden hover:shadow-md transition-all">
+                <div class="relative aspect-[16/9] overflow-hidden bg-bg-subtle">
+                    <img src="{{ asset('media/header/header (3).jpg') }}" alt="Winter Packing Guide" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="text-xs font-bold uppercase tracking-wider text-brand-primary mb-3">Preparation</div>
+                    <h3 class="text-xl font-bold text-text-primary mb-3 leading-tight group-hover:text-brand-primary transition-colors">The Ultimate Winter Trekking Packing List</h3>
+                    <p class="text-text-secondary line-clamp-3 mb-6 font-light">Layering is an art in the Himalayas. Discover exactly what you need to stay warm without overpacking your rucksack on your next winter expedition.</p>
+                    <div class="mt-auto flex items-center justify-between pt-4 border-t border-border-subtle text-sm text-text-muted">
+                        <span>Traventure Team</span>
+                        <span>Oct 12, 2026</span>
+                    </div>
+                </div>
+            </a>
+            
+            {{-- Article 2 --}}
+            <a href="{{ route('journal.show', 'understanding-acute-mountain-sickness') }}" class="group flex flex-col h-full bg-bg-base border border-border-subtle overflow-hidden hover:shadow-md transition-all">
+                <div class="relative aspect-[16/9] overflow-hidden bg-bg-subtle">
+                    <img src="{{ asset('media/header/header (1).jpg') }}" alt="Preventing AMS" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="text-xs font-bold uppercase tracking-wider text-brand-primary mb-3">Safety & Health</div>
+                    <h3 class="text-xl font-bold text-text-primary mb-3 leading-tight group-hover:text-brand-primary transition-colors">Understanding Acute Mountain Sickness (AMS)</h3>
+                    <p class="text-text-secondary line-clamp-3 mb-6 font-light">Altitude affects everyone differently, regardless of fitness. Learn the early signs of AMS, how to acclimatize properly, and when to descend safely.</p>
+                    <div class="mt-auto flex items-center justify-between pt-4 border-t border-border-subtle text-sm text-text-muted">
+                        <span>Traventure Guides</span>
+                        <span>Sep 28, 2026</span>
+                    </div>
+                </div>
+            </a>
+
+            {{-- Article 3 --}}
+            <a href="{{ route('journal.show', 'why-the-sahyadris-come-alive-in-the-monsoon') }}" class="group flex flex-col h-full bg-bg-base border border-border-subtle overflow-hidden hover:shadow-md transition-all hidden lg:flex">
+                <div class="relative aspect-[16/9] overflow-hidden bg-bg-subtle">
+                    <img src="{{ asset('media/header/header (2).jpg') }}" alt="Monsoon Trekking" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="text-xs font-bold uppercase tracking-wider text-brand-primary mb-3">Destinations</div>
+                    <h3 class="text-xl font-bold text-text-primary mb-3 leading-tight group-hover:text-brand-primary transition-colors">Why the Sahyadris Come Alive in the Monsoon</h3>
+                    <p class="text-text-secondary line-clamp-3 mb-6 font-light">When it rains, the Western Ghats transform into a vivid green paradise. We explore the best trails to experience the magic of the Indian monsoon.</p>
+                    <div class="mt-auto flex items-center justify-between pt-4 border-t border-border-subtle text-sm text-text-muted">
+                        <span>Traventure Editorial</span>
+                        <span>Jul 15, 2026</span>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </div>

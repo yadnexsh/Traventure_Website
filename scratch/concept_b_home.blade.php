@@ -1,0 +1,498 @@
+@extends('layouts.public')
+
+@section('content')
+
+{{-- 5. CINEMATIC HERO --}}
+<div class="relative w-full h-[65vh] md:h-[70vh] lg:h-[76vh] bg-black overflow-hidden" id="cinematic-hero">
+    
+    {{-- Slide 01: Himalayan --}}
+    <div class="carousel-slide absolute inset-0 transition-opacity duration-[1500ms] ease-in-out opacity-100 z-10">
+        <div class="absolute inset-0 overflow-hidden">
+            <img src="{{ asset('media/header/header (1).jpg') }}" alt="Himalayan Base Camp" class="ken-burns absolute inset-0 w-full h-full object-cover opacity-70" loading="eager">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col justify-end pb-24 md:pb-32 px-6 sm:px-12 lg:px-24 max-w-7xl mx-auto w-full">
+            <div class="flex items-center space-x-4 mb-6 opacity-80">
+                <span class="text-white text-sm tracking-[0.2em] font-medium">01</span>
+                <span class="h-px w-12 bg-white/50"></span>
+                <span class="text-white/60 text-sm tracking-[0.2em]">03</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 max-w-3xl tracking-tight uppercase">Himalayan<br>Base Camp</h1>
+            <p class="text-lg md:text-2xl text-white/90 mb-10 max-w-2xl font-light">High-altitude journeys. Long trails. Bigger stories.</p>
+            <div class="flex">
+                <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-widest uppercase pb-2 border-b-2 border-white text-white hover:text-brand-primary hover:border-brand-primary transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-4 focus:ring-offset-black">
+                    View the journey
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Slide 02: Sahyadris --}}
+    <div class="carousel-slide absolute inset-0 transition-opacity duration-[1500ms] ease-in-out opacity-0 z-0">
+        <div class="absolute inset-0 overflow-hidden">
+            <img src="{{ asset('media/header/header (2).jpg') }}" alt="Monsoon in the Sahyadris" class="ken-burns absolute inset-0 w-full h-full object-cover opacity-70" loading="lazy">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col justify-end pb-24 md:pb-32 px-6 sm:px-12 lg:px-24 max-w-7xl mx-auto w-full">
+            <div class="flex items-center space-x-4 mb-6 opacity-80">
+                <span class="text-white text-sm tracking-[0.2em] font-medium">02</span>
+                <span class="h-px w-12 bg-white/50"></span>
+                <span class="text-white/60 text-sm tracking-[0.2em]">03</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 max-w-3xl tracking-tight uppercase">Monsoon in<br>the Sahyadris</h1>
+            <p class="text-lg md:text-2xl text-white/90 mb-10 max-w-2xl font-light">Green trails. Waterfalls. A different side of the mountains.</p>
+            <div class="flex">
+                <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-widest uppercase pb-2 border-b-2 border-white text-white hover:text-brand-primary hover:border-brand-primary transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-4 focus:ring-offset-black">
+                    Explore treks
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Slide 03: Weekend Escapes --}}
+    <div class="carousel-slide absolute inset-0 transition-opacity duration-[1500ms] ease-in-out opacity-0 z-0">
+        <div class="absolute inset-0 overflow-hidden">
+            <img src="{{ asset('media/header/header (3).jpg') }}" alt="Weekend Escapes" class="ken-burns absolute inset-0 w-full h-full object-cover opacity-70" loading="lazy">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        <div class="absolute inset-0 flex flex-col justify-end pb-24 md:pb-32 px-6 sm:px-12 lg:px-24 max-w-7xl mx-auto w-full">
+            <div class="flex items-center space-x-4 mb-6 opacity-80">
+                <span class="text-white text-sm tracking-[0.2em] font-medium">03</span>
+                <span class="h-px w-12 bg-white/50"></span>
+                <span class="text-white/60 text-sm tracking-[0.2em]">03</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 max-w-3xl tracking-tight uppercase">Weekend<br>Escapes</h1>
+            <p class="text-lg md:text-2xl text-white/90 mb-10 max-w-2xl font-light">Sometimes you don't need a week. You just need a trail.</p>
+            <div class="flex">
+                <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-widest uppercase pb-2 border-b-2 border-white text-white hover:text-brand-primary hover:border-brand-primary transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-4 focus:ring-offset-black">
+                    Find your next trek
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Minimal Controls --}}
+    <div class="absolute bottom-10 right-6 sm:right-12 lg:right-24 flex items-center gap-8 z-20">
+        <button id="cinematic-prev" class="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-full p-2" aria-label="Previous journey">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button id="cinematic-next" class="text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-full p-2" aria-label="Next journey">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
+</div>
+
+<style>
+    /* Ken Burns Effect */
+    @keyframes kenburns {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
+    }
+    .carousel-slide.opacity-100 .ken-burns {
+        animation: kenburns 8s ease-out forwards;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.getElementById('cinematic-prev');
+        const nextBtn = document.getElementById('cinematic-next');
+        const carousel = document.getElementById('cinematic-hero');
+        let currentSlide = 0;
+        let slideInterval;
+        const intervalTime = 7000;
+
+        // Respect reduced motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('opacity-100', 'z-10');
+            slides[currentSlide].classList.add('opacity-0', 'z-0');
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.remove('opacity-0', 'z-0');
+            slides[currentSlide].classList.add('opacity-100', 'z-10');
+        }
+
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        function startSlideShow() {
+            if (!prefersReducedMotion) {
+                slideInterval = setInterval(nextSlide, intervalTime);
+            }
+        }
+
+        function stopSlideShow() {
+            clearInterval(slideInterval);
+        }
+
+        nextBtn.addEventListener('click', () => { nextSlide(); stopSlideShow(); startSlideShow(); });
+        prevBtn.addEventListener('click', () => { prevSlide(); stopSlideShow(); startSlideShow(); });
+
+        carousel.addEventListener('mouseenter', stopSlideShow);
+        carousel.addEventListener('mouseleave', startSlideShow);
+        carousel.addEventListener('focusin', stopSlideShow);
+        carousel.addEventListener('focusout', startSlideShow);
+
+        startSlideShow();
+    });
+</script>
+
+{{-- DISCOVERY INTRODUCTION --}}
+<div class="bg-bg-base pt-20 pb-32 border-b border-border-subtle" x-data="trekDiscovery()">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="mb-12 text-center max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight mb-6">Find Your Trail</h2>
+            <p class="text-xl md:text-2xl text-text-secondary font-light">Explore treks by month, season and difficulty to find the trail that fits you.</p>
+        </div>
+
+        {{-- 1. Treks by Month --}}
+        <div class="mb-16 relative">
+            <div class="flex items-center justify-center mb-10 relative">
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em]">Treks by Month</h3>
+                <div class="absolute right-0">
+                    <button @click="clearFilters()" x-show="activeMonth || activeSeason || activeDifficulty" style="display: none;" class="text-xs tracking-[0.2em] font-bold uppercase text-brand-primary hover:text-brand-secondary transition-colors">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+            <div class="flex overflow-x-auto pb-4 justify-between md:justify-center md:gap-6 lg:gap-10 scrollbar-hide snap-x px-4 md:px-0">
+                @foreach(['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'] as $month)
+                    <button @click="toggleMonth('{{ $month }}')" 
+                        :class="activeMonth === '{{ $month }}' ? 'text-brand-primary font-bold' : 'text-text-muted font-light'"
+                        class="snap-start flex-none text-xl md:text-2xl hover:text-brand-primary transition-colors focus:outline-none uppercase">
+                        {{ substr($month, 0, 3) }}
+                    </button>
+                @endforeach
+            </div>
+            <div class="h-px w-full bg-border-subtle mt-4"></div>
+        </div>
+        
+        {{-- Treks by Season & Difficulty --}}
+        <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 mb-24">
+            {{-- Treks by Season --}}
+            <div class="flex-1">
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-8 text-center lg:text-left">Treks by Season</h3>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    @php
+                        $seasons = [
+                            'Winter' => 'Snow possible on selected high-altitude routes',
+                            'Summer' => 'Seasonal high-altitude adventures',
+                            'Monsoon' => 'Lush landscapes and rainfall',
+                            'Spring' => 'Blooming landscapes on suitable routes',
+                            'Autumn' => 'Clearer skies and seasonal trekking'
+                        ];
+                    @endphp
+                    @foreach($seasons as $season => $desc)
+                        <button @click="toggleSeason('{{ $season }}')" 
+                            :class="activeSeason === '{{ $season }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                            class="flex flex-col items-start px-5 py-4 border transition-colors focus:outline-none text-left rounded-sm min-w-[180px] flex-1">
+                            <span class="uppercase tracking-widest font-bold text-xs mb-2">{{ $season }}</span>
+                            <span class="text-[10px] font-light leading-tight opacity-70">{{ $desc }}</span>
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- Treks by Difficulty --}}
+            <div class="flex-1">
+                <h3 class="text-sm font-bold text-text-muted uppercase tracking-[0.2em] mb-8 text-center lg:text-left">Treks by Difficulty</h3>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    @php
+                        $difficulties = [
+                            'Easy' => 'Suitable for beginners',
+                            'Moderate' => 'Requires basic fitness',
+                            'Hard' => 'For experienced trekkers',
+                            'Expert' => 'Technical climbing skills needed'
+                        ];
+                    @endphp
+                    @foreach($difficulties as $difficulty => $desc)
+                        <button @click="toggleDifficulty('{{ $difficulty }}')" 
+                            :class="activeDifficulty === '{{ $difficulty }}' ? 'bg-text-primary text-bg-base border-text-primary' : 'bg-transparent text-text-secondary border-border-strong hover:border-text-muted'"
+                            class="flex flex-col items-start px-5 py-4 border transition-colors focus:outline-none text-left rounded-sm min-w-[160px] flex-1">
+                            <span class="uppercase tracking-widest font-bold text-xs mb-2">{{ $difficulty }}</span>
+                            <span class="text-[10px] font-light leading-tight opacity-70">{{ $desc }}</span>
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        {{-- MATCHING TREKS RESULTS --}}
+        <div>
+            <div class="flex items-end justify-between mb-12 border-b border-border-subtle pb-6" x-show="filteredTreks.length > 0">
+                <h3 class="text-3xl font-bold text-text-primary tracking-tight">Matching Treks</h3>
+                <span class="text-sm text-text-muted font-bold tracking-[0.2em] uppercase" x-text="filteredTreks.length + (filteredTreks.length === 1 ? ' Trek' : ' Treks')"></span>
+            </div>
+
+            {{-- Cards Grid --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" x-show="filteredTreks.length > 0">
+                <template x-for="trek in filteredTreks" :key="trek.id">
+                    <a :href="'/treks/' + trek.slug" class="group block relative aspect-[4/5] bg-bg-subtle overflow-hidden">
+                        <img :src="trek.image_url || '/media/placeholder.jpg'" :alt="trek.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-80" loading="lazy" onerror="this.src='/media/header/header (2).jpg'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        
+                        <div class="absolute top-6 left-6">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1" x-text="trek.difficulty"></span>
+                        </div>
+
+                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                            <h3 class="text-3xl font-bold text-white mb-2 leading-tight" x-text="trek.title"></h3>
+                            
+                            <div class="flex items-center text-white/70 text-sm tracking-widest uppercase mb-4 space-x-4">
+                                <span x-show="trek.region" x-text="trek.region"></span>
+                                <span x-show="trek.region">&bull;</span>
+                                <span x-text="trek.duration + ' Days'"></span>
+                                <span>&bull;</span>
+                                <span x-text="'₹' + (trek.price / 100).toLocaleString()"></span>
+                            </div>
+                            
+                            <div x-show="trek.best_months && trek.best_months.length > 0" class="mb-4">
+                                <span class="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em] block mb-1">Best Time</span>
+                                <span class="text-white/90 font-light text-sm tracking-widest uppercase" x-text="trek.best_months ? (trek.best_months.length > 2 ? trek.best_months.slice(0,2).map(m => m.substring(0,3)).join(', ') + ' +' + (trek.best_months.length - 2) : trek.best_months.map(m => m.substring(0,3)).join(', ')) : ''"></span>
+                            </div>
+
+                            <p class="text-white/90 text-lg font-light flex items-center">View details <span class="ml-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all">&rarr;</span></p>
+                        </div>
+                    </a>
+                </template>
+            </div>
+
+            {{-- Empty State --}}
+            <div x-show="filteredTreks.length === 0" style="display: none;" class="py-32 text-center flex flex-col items-center justify-center border border-border-subtle bg-bg-subtle">
+                <p class="text-3xl text-text-primary font-bold mb-4 tracking-tight">No treks match this selection.</p>
+                <p class="text-text-secondary font-light text-xl mb-10">Try adjusting your filters or clearing them to see more.</p>
+                <button @click="clearFilters()" class="inline-flex items-center justify-center font-bold text-sm tracking-[0.2em] uppercase px-12 py-5 bg-text-primary text-bg-base hover:bg-brand-primary transition-all focus:outline-none">
+                    Clear Filters
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('trekDiscovery', () => ({
+            treks: @json($allTreks),
+            activeMonth: null,
+            activeSeason: null,
+            activeDifficulty: null,
+            
+            toggleMonth(month) {
+                this.activeMonth = this.activeMonth === month ? null : month;
+            },
+            
+            toggleSeason(season) {
+                this.activeSeason = this.activeSeason === season ? null : season;
+            },
+            
+            toggleDifficulty(difficulty) {
+                this.activeDifficulty = this.activeDifficulty === difficulty ? null : difficulty;
+            },
+            
+            clearFilters() {
+                this.activeMonth = null;
+                this.activeSeason = null;
+                this.activeDifficulty = null;
+            },
+            
+            get filteredTreks() {
+                return this.treks.filter(trek => {
+                    let match = true;
+                    
+                    if (this.activeDifficulty && trek.difficulty !== this.activeDifficulty) {
+                        match = false;
+                    }
+                    
+                    if (this.activeMonth && match) {
+                        if (!trek.best_months || !trek.best_months.includes(this.activeMonth)) {
+                            match = false;
+                        }
+                    }
+
+                    if (this.activeSeason && match) {
+                        if (!trek.season || !trek.season.includes(this.activeSeason)) {
+                            match = false;
+                        }
+                    }
+                    
+                    return match;
+                });
+            }
+        }));
+    });
+</script>
+
+
+{{-- WHAT ARE YOU LOOKING FOR? --}}
+<div class="bg-bg-base py-32 border-b border-border-subtle">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-text-primary tracking-tight">What are you looking for?</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <a href="#" class="group block relative aspect-[4/5] bg-bg-subtle overflow-hidden">
+                <img src="{{ asset('media/header/header (3).jpg') }}" alt="A quick escape" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-80" loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0 p-10 flex flex-col justify-end">
+                    <h3 class="text-3xl font-bold text-white mb-4 leading-tight">A quick escape</h3>
+                    <p class="text-white/80 text-lg font-light">Day / short adventures</p>
+                </div>
+            </a>
+
+            <a href="#" class="group block relative aspect-[4/5] bg-bg-subtle overflow-hidden">
+                <img src="{{ asset('media/header/header (1).jpg') }}" alt="Something bigger" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-80" loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0 p-10 flex flex-col justify-end">
+                    <h3 class="text-3xl font-bold text-white mb-4 leading-tight">Something bigger</h3>
+                    <p class="text-white/80 text-lg font-light">Multi-day / mountain journeys</p>
+                </div>
+            </a>
+
+            <a href="#" class="group block relative aspect-[4/5] bg-bg-subtle overflow-hidden">
+                <img src="{{ asset('media/header/header (2).jpg') }}" alt="Time to slow down" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-80" loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0 p-10 flex flex-col justify-end">
+                    <h3 class="text-3xl font-bold text-white mb-4 leading-tight">Time to slow down</h3>
+                    <p class="text-white/80 text-lg font-light">Camping / leisure / getaways</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+{{-- TRUST SECTION --}}
+<div class="bg-bg-subtle py-32 border-b border-border-subtle">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-20">
+            <div class="lg:w-1/3">
+                <h2 class="text-4xl md:text-5xl font-bold text-text-primary leading-[1.1] tracking-tight sticky top-32">Adventure,<br>thoughtfully<br>planned.</h2>
+            </div>
+            <div class="lg:w-2/3 space-y-16">
+                <div class="pl-0 lg:pl-12 border-l-0 lg:border-l border-border-strong">
+                    <span class="text-sm tracking-[0.2em] font-bold text-text-muted mb-4 block uppercase">01</span>
+                    <h3 class="text-2xl font-bold text-text-primary mb-4">Know before you go</h3>
+                    <p class="text-xl text-text-secondary leading-relaxed font-light">Clear trek information and expectations. We believe in transparency about what you'll encounter on the trail.</p>
+                </div>
+                <div class="pl-0 lg:pl-12 border-l-0 lg:border-l border-border-strong">
+                    <span class="text-sm tracking-[0.2em] font-bold text-text-muted mb-4 block uppercase">02</span>
+                    <h3 class="text-2xl font-bold text-text-primary mb-4">People behind the journey</h3>
+                    <p class="text-xl text-text-secondary leading-relaxed font-light">Real people supporting each experience. Our trek leaders and local teams are the heart of every journey.</p>
+                </div>
+                <div class="pl-0 lg:pl-12 border-l-0 lg:border-l border-border-strong">
+                    <span class="text-sm tracking-[0.2em] font-bold text-text-muted mb-4 block uppercase">03</span>
+                    <h3 class="text-2xl font-bold text-text-primary mb-4">Come prepared</h3>
+                    <p class="text-xl text-text-secondary leading-relaxed font-light">Useful information before you step onto the trail. We make sure you have the right gear and mindset.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- STORIES, TEAM, JOURNAL GRID --}}
+<div class="bg-bg-base">
+    <div class="grid grid-cols-1 lg:grid-cols-2">
+        
+        {{-- STORIES --}}
+        <div class="py-32 px-12 lg:px-24 border-b lg:border-b-0 lg:border-r border-border-subtle flex flex-col justify-center relative group">
+            <img src="{{ asset('media/header/header (2).jpg') }}" alt="Trekker experience" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-10">
+            <div class="absolute inset-0 bg-bg-base/90 group-hover:bg-bg-base/80 transition-colors duration-500"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold text-text-primary mb-12 tracking-tight">Stories from the trail</h2>
+                <div class="text-brand-primary mb-6">
+                    <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                </div>
+                <p class="text-2xl text-text-secondary font-light italic leading-relaxed mb-12">
+                    "I had never done a multi-day trek before. The team at Traventure made sure I was prepared mentally and physically. Standing at the peak, watching the sunrise over the Sahyadris, all the exhaustion just melted away. It was deeply emotional—a journey I'll never forget."
+                </p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold text-lg">
+                        S
+                    </div>
+                    <div>
+                        <div class="font-bold text-text-primary">Surendra J</div>
+                        <div class="text-sm text-text-muted">Kalsubai Sunrise Trek</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- TEAM & JOURNAL --}}
+        <div class="flex flex-col">
+            {{-- TEAM --}}
+            <div class="py-24 px-12 lg:px-24 border-b border-border-subtle flex-1 flex flex-col justify-center relative overflow-hidden group">
+                <img src="{{ asset('media/team/team_banner.jpg') }}" alt="Traventure Team" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 opacity-60">
+                <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-500"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <h2 class="text-3xl font-bold text-white mb-6 tracking-tight">The people behind the journeys</h2>
+                    <p class="text-xl text-white/80 font-light mb-8 max-w-md">Meet the people who make each journey possible.</p>
+                    <div class="mt-auto">
+                        <span class="text-sm font-bold uppercase tracking-[0.1em] text-white/60">Team profiles coming soon</span>
+                    </div>
+                </div>
+            </div>
+            
+            {{-- JOURNAL --}}
+            <div class="py-16 px-12 lg:px-24 flex-1 flex flex-col bg-bg-subtle overflow-y-auto max-h-[600px] scrollbar-hide">
+                <div class="flex justify-between items-end mb-10">
+                    <h2 class="text-3xl font-bold text-text-primary tracking-tight">From the trail</h2>
+                    <a href="{{ route('journal.index') }}" class="text-sm font-bold text-brand-primary hover:text-brand-secondary">View all &rarr;</a>
+                </div>
+                
+                <div class="flex flex-col gap-8">
+                    <a href="{{ route('journal.show', 'the-ultimate-winter-trekking-packing-list') }}" class="group flex gap-6 items-center">
+                        <div class="w-24 h-24 flex-shrink-0 relative overflow-hidden">
+                            <img src="{{ asset('media/header/header (3).jpg') }}" alt="Packing" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-wider text-brand-primary mb-1">Preparation</div>
+                            <h3 class="text-lg font-bold text-text-primary group-hover:text-brand-primary transition-colors leading-tight">The Ultimate Winter Trekking Packing List</h3>
+                        </div>
+                    </a>
+                    <a href="{{ route('journal.show', 'understanding-acute-mountain-sickness') }}" class="group flex gap-6 items-center">
+                        <div class="w-24 h-24 flex-shrink-0 relative overflow-hidden">
+                            <img src="{{ asset('media/header/header (1).jpg') }}" alt="Health" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-wider text-brand-primary mb-1">Safety & Health</div>
+                            <h3 class="text-lg font-bold text-text-primary group-hover:text-brand-primary transition-colors leading-tight">Understanding Acute Mountain Sickness (AMS)</h3>
+                        </div>
+                    </a>
+                    <a href="{{ route('journal.show', 'why-the-sahyadris-come-alive-in-the-monsoon') }}" class="group flex gap-6 items-center">
+                        <div class="w-24 h-24 flex-shrink-0 relative overflow-hidden">
+                            <img src="{{ asset('media/header/header (2).jpg') }}" alt="Destinations" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold uppercase tracking-wider text-brand-primary mb-1">Destinations</div>
+                            <h3 class="text-lg font-bold text-text-primary group-hover:text-brand-primary transition-colors leading-tight">Why the Sahyadris Come Alive in the Monsoon</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{-- FINAL CINEMATIC CTA --}}
+<div class="relative w-full h-[60vh] md:h-[75vh] bg-black">
+    <div class="absolute inset-0 overflow-hidden">
+        <img src="{{ asset('media/header/header (1).jpg') }}" alt="There's a trail waiting for you" class="ken-burns absolute inset-0 w-full h-full object-cover opacity-60" loading="lazy">
+    </div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 sm:px-6 z-10">
+        <h2 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight uppercase">There's a trail<br>waiting for you.</h2>
+        <p class="text-xl md:text-2xl text-white/90 mb-16 font-light">Where will you go next?</p>
+        <a href="{{ route('treks.index') }}" class="inline-flex items-center justify-center font-bold text-sm tracking-[0.2em] uppercase px-12 py-5 bg-white text-black border-none hover:bg-white/90 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-white">
+            Explore Treks
+        </a>
+    </div>
+</div>
+
+@endsection
